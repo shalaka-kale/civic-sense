@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2ECC71" />
+  <meta name="description" content="Build Civic Sense - Learn civic values through pictures, stories and audio" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Civic Sense" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <title>CivicSeed</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Noto+Sans+Devanagari:wght@400;700;900&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green:#2ECC71; --green-dark:#1a8a4a; --green-light:#eafaf1;
+      --amber:#F39C12; --amber-light:#fef9e7;
+      --red:#E74C3C; --red-light:#fdf2f0;
+      --bg:#f7faf8; --card:#ffffff; --text:#1a2e20; --muted:#6c8a73;
+    }
+    body { font-family:'Nunito','Noto Sans Devanagari',sans-serif; background:var(--bg); min-height:100vh; display:flex; justify-content:center; }
+    .app { width:100%; max-width:480px; background:var(--card); min-height:100vh; display:flex; flex-direction:column; }
+
+    /* LANG SCREEN */
+    #lang-screen { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; background:var(--green-light); padding:32px 24px; gap:18px; }
+    #lang-screen h1 { font-size:26px; font-weight:900; color:var(--green-dark); text-align:center; }
+    #lang-screen p  { font-size:13px; color:var(--muted); text-align:center; }
+    .lang-grid { display:grid; grid-template-columns:1fr; gap:12px; width:100%; max-width:300px; }
+    .lang-btn { background:white; border:2px solid #c5e8d4; border-radius:18px; padding:18px 16px; cursor:pointer; text-align:center; box-shadow:0 3px 10px rgba(0,0,0,0.07); transition:all 0.2s; }
+    .lang-btn:hover { transform:translateY(-3px); border-color:var(--green); box-shadow:0 8px 20px rgba(46,204,113,0.2); }
+    .lang-name   { font-size:20px; font-weight:900; color:var(--text); }
+    .lang-native { font-size:13px; color:var(--muted); margin-top:2px; }
+
+    /* OFFLINE */
+    #offline-banner { display:none; background:var(--red); color:white; text-align:center; padding:8px; font-size:13px; font-weight:700; }
+
+    /* HEADER */
+    .header { background:var(--green); padding:13px 14px; display:flex; align-items:center; gap:10px; }
+    .header-icon { font-size:26px; }
+    .header-text { flex:1; }
+    .header-text h1 { color:white; font-size:16px; font-weight:900; }
+    .header-text p  { color:rgba(255,255,255,0.8); font-size:11px; }
+    .lang-switch-btn { background:rgba(255,255,255,0.22); color:white; border:none; border-radius:12px; padding:6px 10px; font-size:11px; font-weight:700; cursor:pointer; font-family:inherit; white-space:nowrap; }
+    .lang-switch-btn:hover { background:rgba(255,255,255,0.38); }
+
+    /* NAV */
+    .nav { display:flex; background:white; border-bottom:2px solid #e8f5ed; }
+    .nav-btn { flex:1; padding:10px 4px 8px; text-align:center; font-size:9px; font-weight:700; color:var(--muted); cursor:pointer; border:none; background:none; display:flex; flex-direction:column; align-items:center; gap:2px; font-family:inherit; }
+    .nav-btn .nb-icon { font-size:18px; }
+    .nav-btn.active { color:var(--green-dark); border-bottom:3px solid var(--green); }
+
+    /* SCREENS */
+    .screen { display:none; padding:14px; flex:1; }
+    .screen.active { display:block; }
+    .screen-title { font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.7px; margin-bottom:12px; }
+
+    /* TOPICS */
+    .topic-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .topic-card { background:var(--card); border-radius:16px; padding:14px 10px; text-align:center; cursor:pointer; border:2px solid transparent; box-shadow:0 2px 8px rgba(0,0,0,0.06); transition:transform 0.15s,box-shadow 0.15s; }
+    .topic-card:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,0.1); }
+    .topic-card.selected { border-color:var(--green); background:var(--green-light); }
+    .topic-icon  { font-size:34px; margin-bottom:5px; }
+    .topic-label { font-size:13px; font-weight:700; color:var(--text); }
+    .topic-sub   { font-size:11px; color:var(--muted); margin-top:2px; }
+    #topic-msg { display:none; margin-top:14px; background:var(--green-light); border-radius:14px; padding:14px; color:var(--green-dark); line-height:1.35; }
+    .topic-msg-title { font-size:15px; font-weight:900; margin-bottom:10px; text-align:center; }
+    .topic-visual-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+    .topic-rule-card { background:white; border:2px solid #c8efd8; border-radius:12px; padding:10px 7px; text-align:center; min-height:124px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:4px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+    .topic-rule-icon { font-size:32px; line-height:1; }
+    .topic-rule-title { font-size:14px; font-weight:900; color:var(--text); overflow-wrap:anywhere; }
+    .topic-rule-text { font-size:11px; font-weight:700; color:var(--muted); overflow-wrap:anywhere; }
+
+    /* STORY */
+    .story-picker { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-bottom:12px; }
+    .story-choice { background:#f4faf6; color:var(--text); border:2px solid #d7eadf; border-radius:12px; min-height:76px; padding:8px 6px; cursor:pointer; font-family:inherit; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; text-align:center; }
+    .story-choice.active { background:var(--green); color:white; border-color:var(--green-dark); }
+    .story-choice-emoji { font-size:25px; line-height:1; }
+    .story-choice-title { font-size:12px; font-weight:900; line-height:1.15; overflow-wrap:anywhere; }
+    .story-choice-tag { font-size:10px; font-weight:800; color:var(--muted); line-height:1.15; }
+    .story-choice.active .story-choice-tag { color:rgba(255,255,255,0.86); }
+    .story-card { background:var(--card); border-radius:20px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.08); margin-bottom:12px; }
+    .story-scene { background:linear-gradient(160deg,#d5f0e1,#b8e8cc); padding:22px; text-align:center; min-height:190px; display:flex; align-items:center; justify-content:center; }
+    .scene-frame { display:flex; flex-direction:column; align-items:center; gap:8px; }
+    .scene-emoji { font-size:58px; line-height:1; }
+    .scene-title { font-size:14px; font-weight:900; color:#1a5c36; }
+    .scene-desc  { font-size:14px; font-weight:800; color:#1a5c36; background:rgba(255,255,255,0.78); border-radius:12px; padding:7px 14px; text-align:center; line-height:1.35; }
+    .story-nav { display:flex; align-items:center; justify-content:space-between; padding:11px 14px; background:white; }
+    .story-dots { display:flex; gap:5px; }
+    .dot { width:7px; height:7px; border-radius:50%; background:#d0e8da; transition:all 0.2s; }
+    .dot.active { background:var(--green); width:20px; border-radius:4px; }
+    .nav-arrow { background:var(--green); color:white; border:none; border-radius:10px; padding:7px 16px; font-size:16px; cursor:pointer; font-family:inherit; }
+    .nav-arrow:disabled { background:#d0e8da; cursor:default; }
+
+    /* QUIZ */
+    .quiz-tabs { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+    .quiz-tab { background:#eef8f2; color:var(--green-dark); border:2px solid transparent; border-radius:12px; padding:10px 8px; min-height:58px; cursor:pointer; font-family:inherit; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; text-align:center; }
+    .quiz-tab.active { background:var(--green); color:white; border-color:var(--green-dark); }
+    .quiz-tab-name { font-size:13px; font-weight:900; }
+    .quiz-tab-score { font-size:10px; font-weight:800; line-height:1.2; opacity:0.9; }
+    .action-question { background:var(--card); border-radius:16px; padding:14px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+    .quiz-meta { display:flex; justify-content:space-between; gap:8px; color:var(--muted); font-size:11px; font-weight:900; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.4px; }
+    .question-label { font-size:13px; font-weight:700; color:var(--text); margin-bottom:12px; line-height:1.5; }
+    .quiz-picture { text-align:center; font-size:40px; margin:8px 0 16px; }
+    .answer-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .answer-btn { border-radius:14px; padding:14px 8px; font-size:22px; font-weight:700; text-align:center; cursor:pointer; border:2px solid transparent; transition:transform 0.15s,box-shadow 0.15s; display:flex; flex-direction:column; align-items:center; gap:4px; font-family:inherit; }
+    .answer-btn .ans-label { font-size:11px; font-weight:700; }
+    .answer-btn { background:#f4faf6; color:var(--text); border-color:#d7eadf; }
+    .answer-btn.good { background:var(--green-light); color:var(--green-dark); border-color:#a8dbc0; }
+    .answer-btn.bad  { background:var(--red-light); color:#922b21; border-color:#f5b7b1; }
+    .answer-btn:hover:not(:disabled) { transform:scale(1.04); box-shadow:0 4px 12px rgba(0,0,0,0.12); }
+    .answer-btn:disabled { cursor:default; }
+    .answer-btn.chosen-right { background:var(--green); color:white; border-color:var(--green); }
+    .answer-btn.chosen-wrong { background:var(--red); color:white; border-color:var(--red); }
+    .answer-btn.reveal-right { background:var(--green-light); color:var(--green-dark); border-color:var(--green); }
+    .feedback-banner { border-radius:12px; padding:10px 14px; margin-top:10px; font-size:13px; font-weight:700; text-align:center; display:none; line-height:1.5; }
+    .feedback-banner.show { display:block; }
+    .feedback-banner.win  { background:var(--green-light); color:var(--green-dark); }
+    .feedback-banner.lose { background:var(--red-light); color:#922b21; }
+    .quiz-actions { display:flex; justify-content:flex-end; margin-top:10px; }
+
+    /* BADGES */
+    .stars-bar { background:var(--green-light); border-radius:16px; padding:13px 15px; display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+    .stars-big { font-size:26px; }
+    .stars-info h3 { font-size:15px; font-weight:900; color:var(--green-dark); }
+    .stars-info p  { font-size:12px; color:var(--muted); }
+    .badge-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+    .badge-item { background:var(--card); border-radius:16px; padding:12px 7px; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+    .badge-item.locked { opacity:0.4; filter:grayscale(1); }
+    .badge-emoji  { font-size:32px; }
+    .badge-name   { font-size:11px; font-weight:700; color:var(--text); margin-top:5px; }
+    .badge-status { font-size:11px; color:var(--muted); margin-top:3px; line-height:1.25; font-weight:700; }
+
+    /* AUDIO */
+    .audio-btn { display:inline-flex; align-items:center; gap:6px; background:var(--amber-light); color:#7d5a0a; border:none; border-radius:20px; padding:7px 14px; font-size:12px; font-weight:700; cursor:pointer; margin-bottom:12px; font-family:inherit; }
+    .audio-btn:hover { background:#fdeaae; }
+  </style>
+</head>
+<body>
+
+<!-- LANGUAGE PICKER -->
+<div id="lang-screen">
+  <div style="font-size:50px;">🏙️</div>
+  <h1>Choose Your Language</h1>
+  <p>भाषा चुनें &nbsp;·&nbsp; भाषा निवडा</p>
+  <div class="lang-grid">
+    <div class="lang-btn" onclick="setLanguage('en')">
+      <div class="lang-name">English</div>
+      <div class="lang-native">Continue in English</div>
+    </div>
+    <div class="lang-btn" onclick="setLanguage('hi')">
+      <div class="lang-name">हिंदी</div>
+      <div class="lang-native">हिंदी में जारी रखें</div>
+    </div>
+    <div class="lang-btn" onclick="setLanguage('mr')">
+      <div class="lang-name">मराठी</div>
+      <div class="lang-native">मराठीत सुरू ठेवा</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="main-app" style="display:none;">
+  <div id="offline-banner">📵 <span data-t="offline"></span></div>
+
+  <div class="header">
+    <div class="header-icon">🏙️</div>
+    <div class="header-text">
+      <h1 data-t="appName"></h1>
+      <p data-t="appTagline"></p>
+    </div>
+    <button class="lang-switch-btn" onclick="showLangPicker()" data-t="changeLang"></button>
+  </div>
+
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showScreen('learn')">
+      <span class="nb-icon">📚</span><span data-t="navLearn"></span>
+    </button>
+    <button class="nav-btn" onclick="showScreen('story')">
+      <span class="nb-icon">🎬</span><span data-t="navStory"></span>
+    </button>
+    <button class="nav-btn" onclick="showScreen('quiz')">
+      <span class="nb-icon">🎯</span><span data-t="navQuiz"></span>
+    </button>
+    <button class="nav-btn" onclick="showScreen('badges')">
+      <span class="nb-icon">🏅</span><span data-t="navBadges"></span>
+    </button>
+  </nav>
+
+  <!-- LEARN -->
+  <div id="screen-learn" class="screen active">
+    <div class="screen-title" data-t="learnTitle"></div>
+    <div class="topic-grid">
+      <div class="topic-card" onclick="selectTopic(this,'litter')">
+        <div class="topic-icon">🗑️</div>
+        <div class="topic-label" data-t="topic1Name"></div>
+        <div class="topic-sub"   data-t="topic1Sub"></div>
+      </div>
+      <div class="topic-card" onclick="selectTopic(this,'respect')">
+        <div class="topic-icon">💛</div>
+        <div class="topic-label" data-t="topic2Name"></div>
+        <div class="topic-sub"   data-t="topic2Sub"></div>
+      </div>
+      <div class="topic-card" onclick="selectTopic(this,'water')">
+        <div class="topic-icon">💧</div>
+        <div class="topic-label" data-t="topic3Name"></div>
+        <div class="topic-sub"   data-t="topic3Sub"></div>
+      </div>
+      <div class="topic-card" onclick="selectTopic(this,'queue')">
+        <div class="topic-icon">🧍</div>
+        <div class="topic-label" data-t="topic4Name"></div>
+        <div class="topic-sub"   data-t="topic4Sub"></div>
+      </div>
+      <div class="topic-card" onclick="selectTopic(this,'neighbor')">
+        <div class="topic-icon">🤝</div>
+        <div class="topic-label" data-t="topic5Name"></div>
+        <div class="topic-sub"   data-t="topic5Sub"></div>
+      </div>
+      <div class="topic-card" onclick="selectTopic(this,'road')">
+        <div class="topic-icon">🚦</div>
+        <div class="topic-label" data-t="topic6Name"></div>
+        <div class="topic-sub"   data-t="topic6Sub"></div>
+      </div>
+    </div>
+    <div id="topic-msg"></div>
+  </div>
+
+  <!-- STORY -->
+  <div id="screen-story" class="screen">
+    <div class="screen-title" data-t="storyTitle"></div>
+    <div class="story-picker" id="story-picker"></div>
+    <button class="audio-btn" onclick="speakCurrentStoryScene()">🔊 <span data-t="hearStory"></span></button>
+    <div class="story-card">
+      <div class="story-scene" id="story-scene"></div>
+      <div class="story-nav">
+        <button class="nav-arrow" id="prev-btn" onclick="changeScene(-1)" disabled>◀</button>
+        <div class="story-dots" id="story-dots"></div>
+        <button class="nav-arrow" id="next-btn" onclick="changeScene(1)">▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" class="screen">
+    <div class="screen-title" data-t="quizTitle"></div>
+    <div class="quiz-tabs" id="quiz-tabs"></div>
+    <button class="audio-btn" onclick="speakCurrentQuestion()">🔊 <span data-t="hearQuestion"></span></button>
+    <div class="action-question">
+      <div class="quiz-meta">
+        <span id="quiz-name"></span>
+        <span id="quiz-progress"></span>
+      </div>
+      <div class="question-label" id="quiz-question"></div>
+      <div class="quiz-picture" id="quiz-picture"></div>
+      <div class="answer-grid" id="answer-grid"></div>
+      <div class="feedback-banner" id="feedback"></div>
+      <div class="quiz-actions">
+        <button class="nav-arrow" id="next-question-btn" onclick="nextQuestion()" data-t="nextQuestion"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BADGES -->
+  <div id="screen-badges" class="screen">
+    <div class="stars-bar">
+      <div class="stars-big">⭐</div>
+      <div class="stars-info">
+        <h3 id="star-count"></h3>
+        <p data-t="badgeEncourage"></p>
+      </div>
+    </div>
+    <div class="screen-title" data-t="badgesTitle"></div>
+    <div class="badge-grid" id="badge-grid"></div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════
+// TRANSLATIONS
+// ════════════════════════════════════
+const TRANSLATIONS = {
+  en: {
+    appName:'Build Civic Sense', appTagline:'Together we make our community better',
+    changeLang:'🌐 Language', offline:'You are offline — app still works!',
+    navLearn:'Learn', navStory:'Stories', navQuiz:'Quiz', navBadges:'Badges',
+    learnTitle:'📖 Tap a topic to learn',
+    topic1Name:'Garbage Care',   topic1Sub:'Sort it right',
+    topic2Name:'Respect Others', topic2Sub:'Speak kindly',
+    topic3Name:'Save Water',     topic3Sub:'Every drop counts',
+    topic4Name:'Wait Your Turn', topic4Sub:'Be fair to others',
+    topic5Name:'Help Neighbors', topic5Sub:'Kindness is civic',
+    topic6Name:'Road Safety',    topic6Sub:'Stay safe together',
+    topicMsg:{
+      litter:{title:'🗑️ Garbage Care', points:[
+        {icon:'🍌', title:'Bio Waste', text:'Food waste can become compost.'},
+        {icon:'🥤', title:'Dry Waste', text:'Clean paper and plastic can be recycled.'},
+        {icon:'🔋', title:'Ask Adult', text:'Batteries and glass need adult help.'},
+        {icon:'🍬', title:'Use Bin', text:'Wrappers belong in a bin.'}
+      ]},
+      respect:{title:'💛 Respect Others', points:[
+        {icon:'🙏', title:'Please', text:'Use polite words.'},
+        {icon:'👂', title:'Listen', text:'Let others finish speaking.'},
+        {icon:'😊', title:'Be Kind', text:'Do not tease anyone.'},
+        {icon:'🤝', title:'Share', text:'Take turns with others.'}
+      ]},
+      water:{title:'💧 Save Water', points:[
+        {icon:'🚰', title:'Tap Off', text:'Close the tap after use.'},
+        {icon:'🦷', title:'Brush Smart', text:'Do not keep water running.'},
+        {icon:'🔧', title:'Leak?', text:'Tell an adult about leaks.'},
+        {icon:'🥤', title:'Drink Wise', text:'Take only what you need.'}
+      ]},
+      queue:{title:'🧍 Wait Your Turn', points:[
+        {icon:'🧍🧍', title:'Stand In Line', text:'One after another'},
+        {icon:'✋', title:'No Pushing', text:'Hands to yourself'},
+        {icon:'🙂', title:'Stay Calm', text:'Your turn will come'},
+        {icon:'👧', title:'Help Younger', text:'Give safe space'}
+      ]},
+      neighbor:{title:'🤝 Help Neighbors', points:[
+        {icon:'👋', title:'Greet', text:'Say hello kindly'},
+        {icon:'🚲', title:'Clear Path', text:'Move bags and cycles'},
+        {icon:'🔇', title:'Quiet Time', text:'Low noise near others'},
+        {icon:'🧑', title:'Ask Adult', text:'Before helping strangers'}
+      ]},
+      road:{title:'🚦 Road Safety', points:[
+        {icon:'🔴', title:'Stop', text:'Red light means stop.'},
+        {icon:'🟡', title:'Wait', text:'Yellow light means wait.'},
+        {icon:'🟢', title:'Go', text:'Green means go after looking.'},
+        {icon:'🚶', title:'Footpath', text:'A footpath is for walking.'},
+        {icon:'🚸', title:'Cross Here', text:'A zebra crossing is safer.'},
+        {icon:'⛑️', title:'Helmet', text:'A helmet protects your head.'}
+      ]}
+    },
+    storyTitle:'🎬 Easy stories', hearStory:'Hear this page',
+    storyIntro:'Choose a story and read one picture at a time.',
+    scenes:['A person has a sweet wrapper','They drop it on the street','Rain floods the drain!','Dirty city for everyone','Use the bin — happy city!'],
+    quizTitle:'🎯 Quiz sections', hearQuestion:'Hear the question',
+    correct:'🎉 Correct!', wrong:'❌ Not quite.',
+    correctSpeak:'Correct! Great civic thinking!',
+    wrongSpeak:'Not quite. The correct answer is',
+    nextQuestion:'Next',
+    finishQuiz:'Finish',
+    quizComplete:'Quiz complete!',
+    tryAgain:'Try again',
+    scoreSaved:'Score saved',
+    questionCount:'Question',
+    scoreLabel:'Score',
+    previousScore:'Previous score',
+    notTried:'Not tried yet',
+    badgesTitle:'🏅 Quiz score badges', badgeEncourage:'Finish each quiz to save your score.',
+    starsEarned:'quiz points',
+    earned:'✅ Saved', locked:'🔒 Try quiz', ttsLang:'en-IN'
+  },
+  hi: {
+    appName:'नागरिक जागरूकता', appTagline:'मिलकर बनाएं बेहतर समाज',
+    changeLang:'🌐 भाषा', offline:'आप ऑफलाइन हैं — ऐप काम करता रहेगा!',
+    navLearn:'सीखें', navStory:'कहानी', navQuiz:'क्विज़', navBadges:'बैज',
+    learnTitle:'📖 सीखने के लिए टैप करें',
+    topic1Name:'गंदगी न फैलाएं', topic1Sub:'सफाई रखें',
+    topic2Name:'सम्मान करें',     topic2Sub:'मीठे शब्द बोलें',
+    topic3Name:'पानी बचाएं',     topic3Sub:'हर बूंद कीमती',
+    topic4Name:'कतार में रहें',  topic4Sub:'सबका हक है',
+    topic5Name:'पड़ोसी की मदद', topic5Sub:'दयालुता नागरिकता है',
+    topic6Name:'सड़क सुरक्षा',   topic6Sub:'मिलकर सुरक्षित रहें',
+    topicMsg:{
+      litter:{title:'🗑️ कचरा अलग करें', points:[
+        {icon:'🍌', title:'गीला कचरा', text:'खाने का कचरा खाद बन सकता है।'},
+        {icon:'🥤', title:'सूखा कचरा', text:'साफ कागज और प्लास्टिक रीसायकल हो सकते हैं।'},
+        {icon:'🔋', title:'बड़ों को दें', text:'बैटरी और कांच बड़ों को दें।'},
+        {icon:'🍬', title:'डिब्बा', text:'रैपर कूड़ेदान में डालें।'}
+      ]},
+      respect:{title:'💛 सम्मान करें', points:[
+        {icon:'🙏', title:'कृपया', text:'प्यार से पूछें'},
+        {icon:'👂', title:'सुनें', text:'बीच में न बोलें'},
+        {icon:'😊', title:'दयालु बनें', text:'चिढ़ाएं नहीं'},
+        {icon:'🤝', title:'बांटें', text:'बारी-बारी खेलें'}
+      ]},
+      water:{title:'💧 पानी बचाएं', points:[
+        {icon:'🚰', title:'नल बंद', text:'काम के बाद'},
+        {icon:'🦷', title:'ब्रश', text:'नल चालू न छोड़ें'},
+        {icon:'🔧', title:'लीक?', text:'बड़ों को बताएं'},
+        {icon:'🥤', title:'जितना चाहिए', text:'उतना ही लें'}
+      ]},
+      queue:{title:'🧍 कतार में रहें', points:[
+        {icon:'🧍🧍', title:'लाइन', text:'एक के बाद एक'},
+        {icon:'✋', title:'धक्का नहीं', text:'हाथ अपने पास'},
+        {icon:'🙂', title:'शांत रहें', text:'बारी आएगी'},
+        {icon:'👧', title:'छोटों की मदद', text:'जगह दें'}
+      ]},
+      neighbor:{title:'🤝 पड़ोसी की मदद', points:[
+        {icon:'👋', title:'नमस्ते', text:'प्यार से बोलें'},
+        {icon:'🚲', title:'रास्ता साफ', text:'बैग, साइकिल हटाएं'},
+        {icon:'🔇', title:'धीमी आवाज़', text:'दूसरों का ध्यान'},
+        {icon:'🧑', title:'बड़ों से पूछें', text:'अजनबी की मदद से पहले'}
+      ]},
+      road:{title:'🚦 सड़क सुरक्षा', points:[
+        {icon:'🔴', title:'रुकें', text:'लाल बत्ती पर रुकें।'},
+        {icon:'🟡', title:'ठहरें', text:'पीली बत्ती पर ठहरें।'},
+        {icon:'🟢', title:'चलें', text:'हरी बत्ती पर देखकर चलें।'},
+        {icon:'🚶', title:'फुटपाथ', text:'फुटपाथ चलने के लिए है।'},
+        {icon:'🚸', title:'यहां पार', text:'ज़ेब्रा क्रॉसिंग सुरक्षित जगह है।'},
+        {icon:'⛑️', title:'हेलमेट', text:'हेलमेट सिर बचाता है।'}
+      ]}
+    },
+    storyTitle:'🎬 आसान कहानियां', hearStory:'यह पेज सुनें',
+    storyIntro:'एक कहानी चुनें और चित्रों से पढ़ें।',
+    scenes:['एक व्यक्ति के हाथ में रैपर है','वह उसे सड़क पर फेंक देता है','बारिश आई — नाला बंद हो गया!','सारा शहर गंदा और दुखी','कूड़ेदान में डालें — खुशहाल शहर!'],
+    quizTitle:'🎯 क्विज़ सेक्शन', hearQuestion:'सवाल सुनें',
+    quizQuestion:'आपको कचरे के साथ क्या करना चाहिए?',
+    ans1:'कूड़ेदान में डालें', ans2:'फेंक दें', ans3:'डिब्बे तक ले जाएं', ans4:'नदी में डालें',
+    correct:'🎉 सही! बहुत अच्छे नागरिक हैं आप!', wrong:'❌ फिर कोशिश करें! हमेशा कूड़ेदान का उपयोग करें।',
+    correctSpeak:'बिल्कुल सही! आपने अच्छा नागरिक सोच दिखाया!',
+    wrongSpeak:'पूरी तरह सही नहीं। सही जवाब है',
+    nextQuestion:'अगला',
+    finishQuiz:'पूरा करें',
+    quizComplete:'क्विज़ पूरा हुआ!',
+    tryAgain:'फिर कोशिश करें',
+    scoreSaved:'स्कोर सेव हुआ',
+    questionCount:'प्रश्न',
+    scoreLabel:'स्कोर',
+    previousScore:'पिछला स्कोर',
+    notTried:'अभी कोशिश नहीं की',
+    badgesTitle:'🏅 क्विज स्कोर बैज', badgeEncourage:'स्कोर सेव करने के लिए हर क्विज पूरा करें।',
+    starsEarned:'क्विज अंक',
+    badge1Name:'शुरुआत', badge2Name:'सफाई रक्षक', badge3Name:'जल संरक्षक',
+    badge4Name:'सम्मान साथी', badge5Name:'अच्छे पड़ोसी', badge6Name:'सड़क नायक',
+    earned:'✅ मिला', locked:'🔒 बंद', ttsLang:'hi-IN'
+  },
+  mr: {
+    appName:'नागरी जाणीव', appTagline:'एकत्र येऊन समाज सुधारूया',
+    changeLang:'🌐 भाषा', offline:'तुम्ही ऑफलाइन आहात — ॲप काम करेल!',
+    navLearn:'शिका', navStory:'कथा', navQuiz:'क्विझ', navBadges:'बॅज',
+    learnTitle:'📖 विषय निवडण्यासाठी टॅप करा',
+    topic1Name:'घाण करू नका',     topic1Sub:'स्वच्छता ठेवा',
+    topic2Name:'आदर करा',       topic2Sub:'गोड बोला',
+    topic3Name:'पाणी वाचवा',      topic3Sub:'प्रत्येक थेंब मौल्यवान',
+    topic4Name:'रांगेत थांबा',    topic4Sub:'सर्वांशी न्याय करा',
+    topic5Name:'शेजाऱ्यांना मदत', topic5Sub:'दयाळूपणा नागरिकता आहे',
+    topic6Name:'रस्ता सुरक्षा',   topic6Sub:'एकत्र सुरक्षित राहा',
+    topicMsg:{
+      litter:{title:'🗑️ कचरा वेगळा करा', points:[
+        {icon:'🍌', title:'ओला कचरा', text:'अन्नाचा कचरा खत होऊ शकतो.'},
+        {icon:'🥤', title:'सुका कचरा', text:'स्वच्छ कागद आणि प्लास्टिक रीसायकल होऊ शकते.'},
+        {icon:'🔋', title:'मोठ्यांना द्या', text:'बॅटरी आणि काच मोठ्यांना द्या.'},
+        {icon:'🍬', title:'कचराकुंडी', text:'रॅपर कचराकुंडीत टाका.'}
+      ]},
+      respect:{title:'💛 आदर करा', points:[
+        {icon:'🙏', title:'कृपया', text:'गोड बोला'},
+        {icon:'👂', title:'ऐका', text:'मध्ये बोलू नका'},
+        {icon:'😊', title:'दयाळू बना', text:'चिडवू नका'},
+        {icon:'🤝', title:'वाटा', text:'आळीपाळीने खेळा'}
+      ]},
+      water:{title:'💧 पाणी वाचवा', points:[
+        {icon:'🚰', title:'नळ बंद', text:'कामानंतर'},
+        {icon:'🦷', title:'ब्रश', text:'नळ चालू नको'},
+        {icon:'🔧', title:'गळती?', text:'मोठ्यांना सांगा'},
+        {icon:'🥤', title:'जितके हवे', text:'तितकेच घ्या'}
+      ]},
+      queue:{title:'🧍 रांगेत थांबा', points:[
+        {icon:'🧍🧍', title:'रांग', text:'एकामागून एक'},
+        {icon:'✋', title:'ढकलू नका', text:'हात स्वतःकडे'},
+        {icon:'🙂', title:'शांत राहा', text:'तुमची वेळ येईल'},
+        {icon:'👧', title:'लहानांना मदत', text:'जागा द्या'}
+      ]},
+      neighbor:{title:'🤝 शेजाऱ्यांना मदत', points:[
+        {icon:'👋', title:'नमस्कार', text:'प्रेमाने बोला'},
+        {icon:'🚲', title:'रस्ता मोकळा', text:'बॅग, सायकल हटवा'},
+        {icon:'🔇', title:'हळू आवाज', text:'इतरांचा विचार'},
+        {icon:'🧑', title:'मोठ्यांना विचारा', text:'अनोळखी मदतीपूर्वी'}
+      ]},
+      road:{title:'🚦 रस्ता सुरक्षा', points:[
+        {icon:'🔴', title:'थांबा', text:'लाल दिव्यावर थांबा.'},
+        {icon:'🟡', title:'वाट पाहा', text:'पिवळ्या दिव्यावर वाट पाहा.'},
+        {icon:'🟢', title:'जा', text:'हिरव्या दिव्यावर पाहून जा.'},
+        {icon:'🚶', title:'पदपथ', text:'पदपथ चालण्यासाठी असतो.'},
+        {icon:'🚸', title:'इथे पार', text:'झेब्रा क्रॉसिंग सुरक्षित जागा आहे.'},
+        {icon:'⛑️', title:'हेलमेट', text:'हेलमेट डोके वाचवते.'}
+      ]}
+    },
+    storyTitle:'🎬 सोप्या कथा', hearStory:'हे पान ऐका',
+    storyIntro:'एक कथा निवडा आणि चित्रांनी वाचा.',
+    scenes:['एका माणसाच्या हातात वेष्टन आहे','तो ते रस्त्यावर टाकतो','पाऊस आला — गटार बंद झाले!','संपूर्ण शहर घाण आणि दुःखी','कचराकुंडी वापरा — आनंदी शहर!'],
+    quizTitle:'🎯 क्विझ सेक्शन', hearQuestion:'प्रश्न ऐका',
+    quizQuestion:'कचऱ्याचे काय करावे?',
+    ans1:'कचराकुंडीत टाका', ans2:'टाकून द्या', ans3:'कुंडीपर्यंत न्या', ans4:'नदीत टाका',
+    correct:'🎉 बरोबर! तुम्ही उत्तम नागरिक आहात!', wrong:'❌ पुन्हा प्रयत्न करा! नेहमी कचराकुंडी वापरा.',
+    correctSpeak:'बरोबर! तुम्ही चांगला नागरिक विचार दाखवला!',
+    wrongSpeak:'पूर्ण बरोबर नाही. योग्य उत्तर आहे',
+    nextQuestion:'पुढे',
+    finishQuiz:'पूर्ण करा',
+    quizComplete:'क्विझ पूर्ण झाली!',
+    tryAgain:'पुन्हा प्रयत्न करा',
+    scoreSaved:'स्कोर सेव झाला',
+    questionCount:'प्रश्न',
+    scoreLabel:'स्कोर',
+    previousScore:'मागील स्कोर',
+    notTried:'अजून प्रयत्न नाही',
+    badgesTitle:'🏅 क्विझ स्कोर बॅज', badgeEncourage:'स्कोर सेव करण्यासाठी प्रत्येक क्विझ पूर्ण करा.',
+    starsEarned:'क्विझ गुण',
+    badge1Name:'सुरुवात', badge2Name:'स्वच्छता रक्षक', badge3Name:'जल संरक्षक',
+    badge4Name:'आदर मित्र', badge5Name:'चांगला शेजारी', badge6Name:'रस्ता नायक',
+    earned:'✅ मिळाले', locked:'🔒 बंद', ttsLang:'mr-IN'
+  }
+};
+
+const STORIES = [
+  {
+    id:'wrapper-trip',
+    emoji:'🍬',
+    title:{en:'The Wrapper Trip', hi:'रैपर की यात्रा', mr:'रॅपरची गोष्ट'},
+    tag:{en:'No littering', hi:'कचरा नहीं', mr:'कचरा नको'},
+    scenes:[
+      {emoji:'👦🍬', text:{en:'Aarav ate a sweet after school.', hi:'आरव ने स्कूल के बाद टॉफी खाई।', mr:'आरवने शाळेनंतर टॉफी खाल्ली.'}},
+      {emoji:'🍬🤔', text:{en:'He held the wrapper and looked for a bin.', hi:'उसने रैपर पकड़ा और कूड़ेदान ढूंढा।', mr:'त्याने रॅपर हातात ठेवला आणि कचराकुंडी शोधली.'}},
+      {emoji:'🗑️✅', text:{en:'He put the wrapper in the bin.', hi:'उसने रैपर कूड़ेदान में डाला।', mr:'त्याने रॅपर कचराकुंडीत टाकला.'}},
+      {emoji:'🌧️🚿', text:{en:'The drain stayed clean when it rained.', hi:'बारिश में नाली साफ रही।', mr:'पावसात नाली स्वच्छ राहिली.'}},
+      {emoji:'😊🏫', text:{en:'A clean school made everyone smile.', hi:'साफ स्कूल देखकर सब मुस्कुराए।', mr:'स्वच्छ शाळा पाहून सगळे हसले.'}}
+    ]
+  },
+  {
+    id:'traffic-light',
+    emoji:'🚦',
+    title:{en:'Mina at the Signal', hi:'मीना सिग्नल पर', mr:'मीना सिग्नलवर'},
+    tag:{en:'Road safety', hi:'सड़क सुरक्षा', mr:'रस्ता सुरक्षा'},
+    scenes:[
+      {emoji:'👧🚸', text:{en:'Mina wanted to cross the road.', hi:'मीना सड़क पार करना चाहती थी।', mr:'मीनाला रस्ता पार करायचा होता.'}},
+      {emoji:'🔴✋', text:{en:'The red light said, Stop.', hi:'लाल बत्ती ने कहा, रुको।', mr:'लाल दिवा म्हणाला, थांब.'}},
+      {emoji:'🟡🙂', text:{en:'The yellow light said, Wait.', hi:'पीली बत्ती ने कहा, ठहरो।', mr:'पिवळा दिवा म्हणाला, वाट पाहा.'}},
+      {emoji:'🟢👀', text:{en:'The green light said, Look and go.', hi:'हरी बत्ती ने कहा, देखकर चलो।', mr:'हिरवा दिवा म्हणाला, पाहून जा.'}},
+      {emoji:'👧✅', text:{en:'Mina crossed safely with her aunt.', hi:'मीना मौसी के साथ सुरक्षित पार गई।', mr:'मीना मावशीसोबत सुरक्षित पार गेली.'}}
+    ]
+  },
+  {
+    id:'two-bins',
+    emoji:'🟢🔵',
+    title:{en:'Two Happy Bins', hi:'दो खुश डिब्बे', mr:'दोन आनंदी कुंड्या'},
+    tag:{en:'Waste sorting', hi:'कचरा अलग करें', mr:'कचरा वेगळा'},
+    scenes:[
+      {emoji:'🍌🟢', text:{en:'Banana peels went into the green bin.', hi:'केले के छिलके हरे डिब्बे में गए।', mr:'केळ्याची साल हिरव्या कुंडीत गेली.'}},
+      {emoji:'📄🔵', text:{en:'Clean paper went into the dry waste bin.', hi:'साफ कागज सूखे कचरे में गया।', mr:'स्वच्छ कागद सुक्या कचऱ्यात गेला.'}},
+      {emoji:'🥤🔵', text:{en:'An empty bottle went for recycling.', hi:'खाली बोतल रीसायकल के लिए गई।', mr:'रिकामी बाटली रीसायकलसाठी गेली.'}},
+      {emoji:'🔋🧑', text:{en:'A battery was given to an adult.', hi:'बैटरी एक बड़े को दी गई।', mr:'बॅटरी मोठ्यांना दिली.'}},
+      {emoji:'🟢🔵😊', text:{en:'The bins were happy because waste was sorted.', hi:'कचरा अलग हुआ तो डिब्बे खुश हुए।', mr:'कचरा वेगळा झाला म्हणून कुंड्या खुश झाल्या.'}}
+    ]
+  },
+  {
+    id:'tiny-tap',
+    emoji:'🚰',
+    title:{en:'The Tiny Tap', hi:'छोटा नल', mr:'छोटा नळ'},
+    tag:{en:'Save water', hi:'पानी बचाएं', mr:'पाणी वाचवा'},
+    scenes:[
+      {emoji:'🪥🚰', text:{en:'Riya brushed her teeth in the morning.', hi:'रिया सुबह दांत साफ कर रही थी।', mr:'रिया सकाळी दात घासत होती.'}},
+      {emoji:'💧💧', text:{en:'The tap kept dripping water.', hi:'नल से पानी टपक रहा था।', mr:'नळातून पाणी टपटपत होते.'}},
+      {emoji:'✋🚰', text:{en:'Riya closed the tap tightly.', hi:'रिया ने नल अच्छे से बंद किया।', mr:'रियाने नळ नीट बंद केला.'}},
+      {emoji:'🧑🔧', text:{en:'She told an adult about the leak.', hi:'उसने लीकेज के बारे में बड़े को बताया।', mr:'तिने गळतीबद्दल मोठ्यांना सांगितले.'}},
+      {emoji:'💧🌱', text:{en:'Saved water helped the plants grow.', hi:'बचा पानी पौधों के काम आया।', mr:'वाचलेले पाणी झाडांना उपयोगी पडले.'}}
+    ]
+  },
+  {
+    id:'lunch-line',
+    emoji:'🧍',
+    title:{en:'The Lunch Line', hi:'लंच की लाइन', mr:'जेवणाची रांग'},
+    tag:{en:'Wait turns', hi:'बारी का इंतजार', mr:'आळीपाळी'},
+    scenes:[
+      {emoji:'🍛🏫', text:{en:'The class went for lunch.', hi:'कक्षा लंच के लिए गई।', mr:'वर्ग जेवणासाठी गेला.'}},
+      {emoji:'🧍🧍🧍', text:{en:'Children stood one behind another.', hi:'बच्चे एक के पीछे एक खड़े हुए।', mr:'मुले एकामागून एक उभी राहिली.'}},
+      {emoji:'✋🙂', text:{en:'No one pushed or shouted.', hi:'किसी ने धक्का या शोर नहीं किया।', mr:'कोणी ढकलले नाही किंवा ओरडले नाही.'}},
+      {emoji:'👧🍽️', text:{en:'Everyone got food in their turn.', hi:'सबको अपनी बारी पर खाना मिला।', mr:'सगळ्यांना आपल्या वेळी जेवण मिळाले.'}},
+      {emoji:'😊🍛', text:{en:'The lunch line was fair and happy.', hi:'लंच की लाइन अच्छी और खुश थी।', mr:'जेवणाची रांग न्याय्य आणि आनंदी होती.'}}
+    ]
+  },
+  {
+    id:'kind-words',
+    emoji:'💛',
+    title:{en:'Kind Words Win', hi:'मीठे शब्द जीतते हैं', mr:'गोड शब्द जिंकतात'},
+    tag:{en:'Respect', hi:'सम्मान', mr:'आदर'},
+    scenes:[
+      {emoji:'📖😟', text:{en:'Kabir found a hard word in his book.', hi:'कबीर को किताब में कठिन शब्द मिला।', mr:'कबीरला पुस्तकात कठीण शब्द सापडला.'}},
+      {emoji:'👧👂', text:{en:'Nina listened and waited.', hi:'नीना ने सुना और इंतजार किया।', mr:'नीनाने ऐकले आणि थांबली.'}},
+      {emoji:'😊💬', text:{en:'She said, Try again, I can help.', hi:'उसने कहा, फिर कोशिश करो, मैं मदद करूंगी।', mr:'ती म्हणाली, पुन्हा प्रयत्न कर, मी मदत करते.'}},
+      {emoji:'📖✅', text:{en:'Kabir read the word slowly.', hi:'कबीर ने शब्द धीरे-धीरे पढ़ा।', mr:'कबीरने शब्द हळूहळू वाचला.'}},
+      {emoji:'🤝⭐', text:{en:'Kind words helped both friends learn.', hi:'मीठे शब्दों से दोनों दोस्तों ने सीखा।', mr:'गोड शब्दांनी दोन्ही मित्र शिकले.'}}
+    ]
+  },
+  {
+    id:'neighbor-bag',
+    emoji:'🤝',
+    title:{en:'Grandma’s Bag', hi:'दादी का बैग', mr:'आजीची पिशवी'},
+    tag:{en:'Help safely', hi:'सुरक्षित मदद', mr:'सुरक्षित मदत'},
+    scenes:[
+      {emoji:'👵🛍️', text:{en:'Grandma carried a heavy bag.', hi:'दादी भारी बैग ले जा रही थीं।', mr:'आजी जड पिशवी घेऊन चालली होती.'}},
+      {emoji:'👦🧑', text:{en:'Dev asked his father first.', hi:'देव ने पहले पापा से पूछा।', mr:'देवने आधी बाबांना विचारले.'}},
+      {emoji:'🤝🛍️', text:{en:'Together, they helped carry the bag.', hi:'दोनों ने मिलकर बैग उठाने में मदद की।', mr:'दोघांनी मिळून पिशवी नेण्यास मदत केली.'}},
+      {emoji:'🚪😊', text:{en:'Grandma reached her door safely.', hi:'दादी सुरक्षित अपने दरवाजे तक पहुंचीं।', mr:'आजी सुरक्षित दारापर्यंत पोहोचली.'}},
+      {emoji:'🙏💛', text:{en:'She smiled and said, Thank you.', hi:'वह मुस्कुराईं और बोलीं, धन्यवाद।', mr:'ती हसली आणि म्हणाली, धन्यवाद.'}}
+    ]
+  },
+  {
+    id:'library-voice',
+    emoji:'📚',
+    title:{en:'Library Voice', hi:'लाइब्रेरी की आवाज़', mr:'वाचनालयातील आवाज'},
+    tag:{en:'Quiet places', hi:'शांत जगह', mr:'शांत जागा'},
+    scenes:[
+      {emoji:'📚👧', text:{en:'Sara entered the library.', hi:'सारा लाइब्रेरी में गई।', mr:'सारा वाचनालयात गेली.'}},
+      {emoji:'🤫', text:{en:'She used a soft voice.', hi:'उसने धीमी आवाज़ में बात की।', mr:'तिने हळू आवाजात बोलले.'}},
+      {emoji:'📖👦', text:{en:'Her friend could read in peace.', hi:'उसका दोस्त शांति से पढ़ सका।', mr:'तिचा मित्र शांतपणे वाचू शकला.'}},
+      {emoji:'📕✅', text:{en:'Sara kept the book back neatly.', hi:'सारा ने किताब ठीक से वापस रखी।', mr:'साराने पुस्तक नीट परत ठेवले.'}},
+      {emoji:'📚😊', text:{en:'The library stayed calm for everyone.', hi:'लाइब्रेरी सबके लिए शांत रही।', mr:'वाचनालय सगळ्यांसाठी शांत राहिले.'}}
+    ]
+  },
+  {
+    id:'helmet-ride',
+    emoji:'⛑️',
+    title:{en:'Helmet First', hi:'पहले हेलमेट', mr:'आधी हेलमेट'},
+    tag:{en:'Cycle safety', hi:'साइकिल सुरक्षा', mr:'सायकल सुरक्षा'},
+    scenes:[
+      {emoji:'🚲😊', text:{en:'Tara wanted to ride her cycle.', hi:'तारा साइकिल चलाना चाहती थी।', mr:'ताराला सायकल चालवायची होती.'}},
+      {emoji:'⛑️👍', text:{en:'She put on her helmet first.', hi:'उसने पहले हेलमेट पहना।', mr:'तिने आधी हेलमेट घातले.'}},
+      {emoji:'👀🛣️', text:{en:'She looked left and right.', hi:'उसने बाएं और दाएं देखा।', mr:'तिने डावे आणि उजवे पाहिले.'}},
+      {emoji:'🚲🐢', text:{en:'She rode slowly near people.', hi:'लोगों के पास उसने धीरे साइकिल चलाई।', mr:'लोकांजवळ तिने हळू सायकल चालवली.'}},
+      {emoji:'⛑️⭐', text:{en:'Her helmet helped her ride safely.', hi:'हेलमेट ने उसे सुरक्षित रखा।', mr:'हेलमेटने तिला सुरक्षित ठेवले.'}}
+    ]
+  },
+  {
+    id:'park-plants',
+    emoji:'🌱',
+    title:{en:'The Park Plant', hi:'पार्क का पौधा', mr:'उद्यानातील रोप'},
+    tag:{en:'Care for nature', hi:'प्रकृति की देखभाल', mr:'निसर्ग काळजी'},
+    scenes:[
+      {emoji:'🌱🏞️', text:{en:'A small plant grew in the park.', hi:'पार्क में एक छोटा पौधा उगा।', mr:'उद्यानात एक छोटे रोप वाढले.'}},
+      {emoji:'⚽🤔', text:{en:'Children moved their ball away from it.', hi:'बच्चों ने गेंद पौधे से दूर कर ली।', mr:'मुलांनी चेंडू रोपापासून दूर नेला.'}},
+      {emoji:'💧🌱', text:{en:'They gave the plant a little water.', hi:'उन्होंने पौधे को थोड़ा पानी दिया।', mr:'त्यांनी रोपाला थोडे पाणी दिले.'}},
+      {emoji:'🚯', text:{en:'They kept wrappers out of the park.', hi:'उन्होंने पार्क में रैपर नहीं डाले।', mr:'त्यांनी उद्यानात रॅपर टाकले नाहीत.'}},
+      {emoji:'🌳😊', text:{en:'Soon the plant became a happy tree.', hi:'जल्दी ही पौधा खुश पेड़ बन गया।', mr:'लवकरच रोप आनंदी झाड झाले.'}}
+    ]
+  }
+];
+
+// Add quiz3, quiz4, and more here. Keep 10 questions per quiz and one correct index per question.
+const QUIZZES = [
+  {
+    id:'quiz1',
+    name:'Quiz 1',
+    badge:'🌟',
+    questions:[
+      {category:'Garbage', icon:'🗑️🍌', question:'Which bin is best for a banana peel?', options:['Roadside','Green bin or compost','Water drain','Blue paper bin'], correct:1, explain:'Fruit peels are bio waste and can become compost.'},
+      {category:'Road Safety', icon:'🚦', question:'What should you do when the traffic light is red?', options:['Run quickly','Stop and wait','Cross while waving','Stand in the middle'], correct:1, explain:'Red means stop. Wait until it is safe.'},
+      {category:'Water', icon:'🚰🦷', question:'What should you do while brushing your teeth?', options:['Let water run','Fill many buckets','Keep the tap closed','Play with the tap'], correct:2, explain:'Closing the tap saves clean water.'},
+      {category:'Queue', icon:'🧍🧍', question:'Your class is waiting for lunch. What is fair?', options:['Push to the front','Wait for your turn','Hold two places','Leave the line messy'], correct:1, explain:'Queues help everyone get a fair turn.'},
+      {category:'Respect', icon:'💛', question:'A friend makes a mistake while reading. What should you do?', options:['Laugh loudly','Call names','Help kindly','Hide the book'], correct:2, explain:'Kind words help friends learn.'},
+      {category:'Public Property', icon:'🏫🧱', question:'What should you do with a clean school wall?', options:['Draw on it','Keep it clean','Scratch it','Stick gum on it'], correct:1, explain:'School walls belong to everyone.'},
+      {category:'Health', icon:'🤧', question:'What should you do when you sneeze?', options:['Sneeze on friends','Cover your mouth','Touch everyone','Leave tissues on the floor'], correct:1, explain:'Covering sneezes keeps others healthy.'},
+      {category:'Cycling', icon:'🚲⛑️', question:'What keeps your head safer on a bicycle?', options:['A school cap','No hands riding','A helmet','A scarf over eyes'], correct:2, explain:'A helmet protects your head.'},
+      {category:'Safety', icon:'🧑‍🏫', question:'If you feel lost in a public place, who should you ask for help?', options:['Any child nearby','No one','A busy road driver','A trusted adult or security person'], correct:3, explain:'Trusted adults can help you find your family safely.'},
+      {category:'Cleanliness', icon:'🍬🗑️', question:'You have a wrapper but there is no bin nearby. What should you do?', options:['Throw it in a drain','Drop it under a tree','Carry it until you find a bin','Give it to a younger child'], correct:2, explain:'Carry small rubbish until you find the right bin.'}
+    ]
+  },
+  {
+    id:'quiz2',
+    name:'Quiz 2',
+    badge:'🏅',
+    questions:[
+      {category:'Road Safety', icon:'🚸', question:'Where should you cross the road when possible?', options:['Between parked cars','At a zebra crossing','On a turn','Anywhere you like'], correct:1, explain:'Zebra crossings are made for safer crossing.'},
+      {category:'Dry Waste', icon:'♻️🥤', question:'Where should an empty plastic bottle go?', options:['Compost box','Road drain','Dry waste or recycling bin','Under a desk'], correct:2, explain:'Clean plastic bottles are dry waste and can be recycled.'},
+      {category:'Bio Waste', icon:'🍂', question:'Where should dry leaves from a garden go?', options:['Water tank','School bag','Compost or green bin','Road corner'], correct:2, explain:'Leaves are bio waste and can become compost.'},
+      {category:'Water', icon:'💧🔧', question:'You see a tap leaking at school. What should you do?', options:['Ignore it','Open it more','Tell a teacher or adult','Splash the water'], correct:2, explain:'An adult can fix the leak and save water.'},
+      {category:'Sharing', icon:'🧒🧒', question:'Two children want the same swing. What is best?', options:['Push harder','Keep it all day','Take turns','Shout at them'], correct:2, explain:'Taking turns makes play fair.'},
+      {category:'Quiet Places', icon:'📚', question:'How should you behave in a library?', options:['Run between shelves','Speak softly','Shout jokes','Tear pages'], correct:1, explain:'Quiet voices help everyone read and study.'},
+      {category:'Bus Manners', icon:'🚌', question:'What is kind on a crowded bus?', options:['Stand on the seat','Block the door','Throw tickets down','Offer a seat to someone who needs it'], correct:3, explain:'Helping someone who needs a seat is caring.'},
+      {category:'Energy', icon:'💡', question:'What should you do before leaving an empty room?', options:['Switch on everything','Switch off lights and fans','Leave the door blocked','Hide the remote'], correct:1, explain:'Saving electricity helps the whole community.'},
+      {category:'Animal Safety', icon:'🐕', question:'What should you do near a street dog?', options:['Pull its tail','Stay calm and do not tease it','Throw stones','Run at it shouting'], correct:1, explain:'Being calm and kind keeps you safer.'},
+      {category:'Emergency', icon:'🔥', question:'If you see smoke or fire, what should you do first?', options:['Hide nearby','Touch it','Move away and tell an adult','Take a selfie'], correct:2, explain:'Move away first, then get adult help quickly.'}
+    ]
+  }
+];
+
+// ════════════════════════════════════
+// LANGUAGE ENGINE
+// ════════════════════════════════════
+let currentLang = localStorage.getItem('lang') || null;
+
+function T(key) {
+  return TRANSLATIONS[currentLang]?.[key] ?? TRANSLATIONS['en'][key] ?? key;
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  document.getElementById('lang-screen').style.display = 'none';
+  document.getElementById('main-app').style.display    = 'flex';
+  applyTranslations();
+}
+
+function showLangPicker() {
+  document.getElementById('lang-screen').style.display = 'flex';
+  document.getElementById('main-app').style.display    = 'none';
+}
+
+function applyTranslations() {
+  document.querySelectorAll('[data-t]').forEach(el => {
+    el.textContent = T(el.getAttribute('data-t'));
+  });
+  renderStoryPicker();
+  renderStory();
+  renderQuizTabs();
+  renderQuiz();
+  updateBadges();
+  updateStarCount();
+}
+
+function updateStarCount() {
+  const scores = getQuizScores();
+  const stars = Object.values(scores).reduce((total, score) => total + Number(score || 0), 0);
+  const el = document.getElementById('star-count');
+  if (el) el.textContent = stars + ' ' + T('starsEarned');
+}
+
+// ════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  const idx = ['learn','story','quiz','badges'].indexOf(id);
+  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+}
+
+// ════════════════════════════════════
+// LEARN
+// ════════════════════════════════════
+function selectTopic(el, key) {
+  document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const msg = T('topicMsg')[key] || '';
+  const box = document.getElementById('topic-msg');
+  box.style.display = 'block';
+  box.innerHTML = '';
+
+  if (typeof msg === 'string') {
+    box.textContent = msg;
+    speakText(msg);
+    return;
+  }
+
+  const title = document.createElement('div');
+  title.className = 'topic-msg-title';
+  title.textContent = msg.title || '';
+  box.appendChild(title);
+
+  const list = document.createElement('div');
+  list.className = 'topic-visual-grid';
+  (msg.points || []).forEach(point => {
+    const item = document.createElement('div');
+    item.className = 'topic-rule-card';
+
+    if (typeof point === 'string') {
+      item.textContent = point;
+    } else {
+      const icon = document.createElement('div');
+      icon.className = 'topic-rule-icon';
+      icon.textContent = point.icon || '✅';
+      const title = document.createElement('div');
+      title.className = 'topic-rule-title';
+      title.textContent = point.title || '';
+      const text = document.createElement('div');
+      text.className = 'topic-rule-text';
+      text.textContent = point.text || '';
+      item.append(icon, title, text);
+    }
+
+    list.appendChild(item);
+  });
+  box.appendChild(list);
+  speakText([msg.title, ...(msg.points || []).map(point => typeof point === 'string' ? point : `${point.title}. ${point.text}`)].join('. '));
+}
+
+// ════════════════════════════════════
+// STORY
+// ════════════════════════════════════
+let currentStoryIndex = 0;
+let currentScene = 0;
+
+function storyText(value) {
+  if (typeof value === 'string') return value;
+  return value?.[currentLang] || value?.en || '';
+}
+
+function getCurrentStory() {
+  return STORIES[currentStoryIndex] || STORIES[0];
+}
+
+function getCurrentStoryScene() {
+  const story = getCurrentStory();
+  return story?.scenes[currentScene] || story?.scenes[0];
+}
+
+function renderStoryPicker() {
+  const picker = document.getElementById('story-picker');
+  if (!picker) return;
+
+  picker.innerHTML = '';
+  STORIES.forEach((story, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'story-choice' + (index === currentStoryIndex ? ' active' : '');
+    btn.onclick = () => selectStory(index);
+
+    const emoji = document.createElement('div');
+    emoji.className = 'story-choice-emoji';
+    emoji.textContent = story.emoji;
+    const title = document.createElement('div');
+    title.className = 'story-choice-title';
+    title.textContent = storyText(story.title);
+    const tag = document.createElement('div');
+    tag.className = 'story-choice-tag';
+    tag.textContent = storyText(story.tag);
+
+    btn.append(emoji, title, tag);
+    picker.appendChild(btn);
+  });
+}
+
+function selectStory(index) {
+  currentStoryIndex = index;
+  currentScene = 0;
+  renderStoryPicker();
+  renderStory();
+  speakCurrentStoryScene();
+}
+
+function buildDots() {
+  const d = document.getElementById('story-dots');
+  if (!d) return;
+  const story = getCurrentStory();
+  d.innerHTML = '';
+  for (let i = 0; i < story.scenes.length; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === currentScene ? ' active' : '');
+    d.appendChild(dot);
+  }
+}
+
+function renderStory() {
+  const story = getCurrentStory();
+  const scene = getCurrentStoryScene();
+  if (!story || !scene) return;
+
+  const sceneBox = document.getElementById('story-scene');
+  if (!sceneBox) return;
+
+  sceneBox.innerHTML = '';
+  const frame = document.createElement('div');
+  frame.className = 'scene-frame';
+  const emoji = document.createElement('div');
+  emoji.className = 'scene-emoji';
+  emoji.textContent = scene.emoji;
+  const title = document.createElement('div');
+  title.className = 'scene-title';
+  title.textContent = storyText(story.title);
+  const desc = document.createElement('div');
+  desc.className = 'scene-desc';
+  desc.textContent = storyText(scene.text);
+
+  frame.append(emoji, title, desc);
+  sceneBox.appendChild(frame);
+  document.getElementById('prev-btn').disabled = currentScene === 0;
+  document.getElementById('next-btn').disabled = currentScene === story.scenes.length - 1;
+  buildDots();
+}
+
+function changeScene(dir) {
+  const story = getCurrentStory();
+  currentScene = Math.max(0, Math.min(story.scenes.length - 1, currentScene + dir));
+  renderStory();
+  speakCurrentStoryScene();
+}
+
+function speakCurrentStoryScene() {
+  const scene = getCurrentStoryScene();
+  if (!scene) return;
+  speakText(storyText(scene.text));
+}
+
+// ════════════════════════════════════
+// QUIZ
+// ════════════════════════════════════
+let currentQuizIndex = 0;
+let currentQuestionIndex = 0;
+let currentQuizScore = 0;
+let answered = false;
+let quizComplete = false;
+
+function getQuizScores() {
+  try {
+    return JSON.parse(localStorage.getItem('quizScores') || '{}') || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveQuizScore(quizId, score) {
+  const scores = getQuizScores();
+  scores[quizId] = score;
+  localStorage.setItem('quizScores', JSON.stringify(scores));
+}
+
+function renderQuizTabs() {
+  const tabs = document.getElementById('quiz-tabs');
+  if (!tabs) return;
+
+  const scores = getQuizScores();
+  tabs.innerHTML = '';
+  QUIZZES.forEach((quiz, index) => {
+    const btn = document.createElement('button');
+    const hasScore = Object.prototype.hasOwnProperty.call(scores, quiz.id);
+    btn.className = 'quiz-tab' + (index === currentQuizIndex ? ' active' : '');
+    const name = document.createElement('span');
+    name.className = 'quiz-tab-name';
+    name.textContent = quiz.name;
+    const score = document.createElement('span');
+    score.className = 'quiz-tab-score';
+    score.textContent = hasScore ? `${T('previousScore')}: ${scores[quiz.id]}/${quiz.questions.length}` : T('notTried');
+    btn.append(name, score);
+    btn.onclick = () => selectQuiz(index);
+    tabs.appendChild(btn);
+  });
+}
+
+function selectQuiz(index) {
+  currentQuizIndex = index;
+  currentQuestionIndex = 0;
+  currentQuizScore = 0;
+  answered = false;
+  quizComplete = false;
+  renderQuizTabs();
+  renderQuiz();
+}
+
+function getCurrentQuestion() {
+  return QUIZZES[currentQuizIndex]?.questions[currentQuestionIndex] || null;
+}
+
+function renderQuiz() {
+  const quiz = QUIZZES[currentQuizIndex];
+  const question = getCurrentQuestion();
+  if (!quiz || !question) return;
+
+  document.getElementById('quiz-name').textContent = `${quiz.name} · ${question.category}`;
+  document.getElementById('quiz-progress').textContent = `${T('questionCount')} ${currentQuestionIndex + 1}/${quiz.questions.length}`;
+  document.getElementById('quiz-question').textContent = question.question;
+  document.getElementById('quiz-picture').textContent = question.icon;
+
+  const feedback = document.getElementById('feedback');
+  feedback.className = 'feedback-banner';
+  feedback.textContent = '';
+
+  const answerGrid = document.getElementById('answer-grid');
+  answerGrid.innerHTML = '';
+  question.options.forEach((option, index) => {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn';
+    btn.onclick = () => answer(btn, index);
+
+    const marker = document.createElement('span');
+    marker.textContent = ['A','B','C','D'][index];
+    const label = document.createElement('span');
+    label.className = 'ans-label';
+    label.textContent = option;
+    btn.append(marker, label);
+    answerGrid.appendChild(btn);
+  });
+
+  const nextBtn = document.getElementById('next-question-btn');
+  nextBtn.style.display = 'none';
+  nextBtn.textContent = currentQuestionIndex === quiz.questions.length - 1 ? T('finishQuiz') : T('nextQuestion');
+  answered = false;
+  quizComplete = false;
+}
+
+function answer(btn, selectedIndex) {
+  if (answered) return;
+  answered = true;
+  const question = getCurrentQuestion();
+  const isCorrect = selectedIndex === question.correct;
+  const fb = document.getElementById('feedback');
+  const buttons = document.querySelectorAll('#answer-grid .answer-btn');
+
+  buttons.forEach((answerBtn, index) => {
+    answerBtn.disabled = true;
+    if (index === question.correct) answerBtn.classList.add('reveal-right');
+  });
+
+  if (isCorrect) {
+    currentQuizScore += 1;
+    btn.classList.add('chosen-right');
+    fb.textContent = `${T('correct')} ${question.explain}`;
+    fb.className   = 'feedback-banner show win';
+    speakText(`${T('correctSpeak')} ${question.explain}`);
+  } else {
+    btn.classList.add('chosen-wrong');
+    fb.textContent = `${T('wrong')} ${question.explain}`;
+    fb.className   = 'feedback-banner show lose';
+    speakText(`${T('wrongSpeak')} ${question.options[question.correct]}. ${question.explain}`);
+  }
+
+  document.getElementById('next-question-btn').style.display = 'inline-block';
+}
+
+function nextQuestion() {
+  if (quizComplete) {
+    currentQuestionIndex = 0;
+    currentQuizScore = 0;
+    renderQuiz();
+    return;
+  }
+
+  const quiz = QUIZZES[currentQuizIndex];
+  if (currentQuestionIndex < quiz.questions.length - 1) {
+    currentQuestionIndex += 1;
+    renderQuiz();
+    return;
+  }
+
+  saveQuizScore(quiz.id, currentQuizScore);
+  quizComplete = true;
+  renderQuizTabs();
+  updateBadges();
+  updateStarCount();
+
+  document.getElementById('quiz-name').textContent = quiz.name;
+  document.getElementById('quiz-progress').textContent = `${currentQuizScore}/${quiz.questions.length}`;
+  document.getElementById('quiz-question').textContent = T('quizComplete');
+  document.getElementById('quiz-picture').textContent = quiz.badge;
+  document.getElementById('answer-grid').innerHTML = '';
+
+  const fb = document.getElementById('feedback');
+  fb.textContent = `${T('scoreSaved')}: ${currentQuizScore}/${quiz.questions.length}`;
+  fb.className = 'feedback-banner show win';
+
+  const nextBtn = document.getElementById('next-question-btn');
+  nextBtn.textContent = T('tryAgain');
+  nextBtn.style.display = 'inline-block';
+  speakText(`${T('scoreSaved')}: ${currentQuizScore} ${T('scoreLabel')}`);
+}
+
+function speakCurrentQuestion() {
+  const question = getCurrentQuestion();
+  if (!question || quizComplete) return;
+  speakText(`${question.question} ${question.options.join('. ')}`);
+}
+
+function updateBadges() {
+  const grid = document.getElementById('badge-grid');
+  if (!grid) return;
+
+  const scores = getQuizScores();
+  grid.innerHTML = '';
+  QUIZZES.forEach(quiz => {
+    const hasScore = Object.prototype.hasOwnProperty.call(scores, quiz.id);
+    const badge = document.createElement('div');
+    badge.className = 'badge-item' + (hasScore ? '' : ' locked');
+
+    const emoji = document.createElement('div');
+    emoji.className = 'badge-emoji';
+    emoji.textContent = quiz.badge;
+    const name = document.createElement('div');
+    name.className = 'badge-name';
+    name.textContent = quiz.name;
+    const status = document.createElement('div');
+    status.className = 'badge-status';
+    status.textContent = hasScore ? `${T('previousScore')}: ${scores[quiz.id]}/${quiz.questions.length}` : T('notTried');
+
+    badge.append(emoji, name, status);
+    grid.appendChild(badge);
+  });
+}
+
+// ════════════════════════════════════
+// TEXT TO SPEECH
+// ════════════════════════════════════
+function speakText(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang  = T('ttsLang');
+  u.rate  = 0.88;
+  window.speechSynthesis.speak(u);
+}
+
+// ════════════════════════════════════
+// OFFLINE
+// ════════════════════════════════════
+window.addEventListener('online',  () => document.getElementById('offline-banner').style.display = 'none');
+window.addEventListener('offline', () => document.getElementById('offline-banner').style.display = 'block');
+
+// ════════════════════════════════════
+// SERVICE WORKER
+// ════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(() => console.log('SW registered'))
+    .catch(e  => console.log('SW error:', e));
+}
+
+// ════════════════════════════════════
+// STARTUP
+// ════════════════════════════════════
+if (currentLang) {
+  setLanguage(currentLang);
+}
+</script>
+</body>
+</html>
