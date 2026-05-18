@@ -81,11 +81,12 @@
     .story-choice-tag { font-size:10px; font-weight:800; color:var(--muted); line-height:1.15; }
     .story-choice.active .story-choice-tag { color:rgba(255,255,255,0.86); }
     .story-card { background:var(--card); border-radius:20px; overflow:hidden; box-shadow:0 4px 16px rgba(0,0,0,0.08); margin-bottom:12px; }
-    .story-scene { background:linear-gradient(160deg,#d5f0e1,#b8e8cc); padding:22px; text-align:center; min-height:190px; display:flex; align-items:center; justify-content:center; }
+    .story-scene { background:linear-gradient(160deg,#d5f0e1,#b8e8cc); padding:22px; text-align:center; min-height:260px; display:flex; align-items:center; justify-content:center; }
     .scene-frame { display:flex; flex-direction:column; align-items:center; gap:8px; }
     .scene-emoji { font-size:58px; line-height:1; }
     .scene-title { font-size:14px; font-weight:900; color:#1a5c36; }
     .scene-desc  { font-size:14px; font-weight:800; color:#1a5c36; background:rgba(255,255,255,0.78); border-radius:12px; padding:7px 14px; text-align:center; line-height:1.35; }
+    .scene-detail { font-size:12px; font-weight:700; color:#2d6b43; background:rgba(255,255,255,0.62); border-radius:12px; padding:7px 12px; text-align:center; line-height:1.35; }
     .story-nav { display:flex; align-items:center; justify-content:space-between; padding:11px 14px; background:white; }
     .story-dots { display:flex; gap:5px; }
     .dot { width:7px; height:7px; border-radius:50%; background:#d0e8da; transition:all 0.2s; }
@@ -283,7 +284,7 @@ const TRANSLATIONS = {
   en: {
     appName:'Build Civic Sense', appTagline:'Together we make our community better',
     changeLang:'🌐 Language', offline:'You are offline — app still works!',
-    navLearn:'Learn', navStory:'Stories', navQuiz:'Quiz', navBadges:'Badges',
+    navLearn:'Learn', navStory:'Stories', navQuiz:'Quiz', navBadges:'Score',
     learnTitle:'📖 Tap a topic to learn',
     topic1Name:'Garbage Care',   topic1Sub:'Sort it right',
     topic2Name:'Respect Others', topic2Sub:'Speak kindly',
@@ -347,14 +348,14 @@ const TRANSLATIONS = {
     scoreLabel:'Score',
     previousScore:'Previous score',
     notTried:'Not tried yet',
-    badgesTitle:'🏅 Quiz score badges', badgeEncourage:'Finish each quiz to save your score.',
+    badgesTitle:'🏅 Quiz score', badgeEncourage:'Finish each quiz to save your score.',
     starsEarned:'quiz points',
     earned:'✅ Saved', locked:'🔒 Try quiz', ttsLang:'en-IN'
   },
   hi: {
     appName:'नागरिक जागरूकता', appTagline:'मिलकर बनाएं बेहतर समाज',
     changeLang:'🌐 भाषा', offline:'आप ऑफलाइन हैं — ऐप काम करता रहेगा!',
-    navLearn:'सीखें', navStory:'कहानी', navQuiz:'क्विज़', navBadges:'बैज',
+    navLearn:'सीखें', navStory:'कहानी', navQuiz:'प्रश्नोत्तरी', navBadges:'अंक',
     learnTitle:'📖 सीखने के लिए टैप करें',
     topic1Name:'गंदगी न फैलाएं', topic1Sub:'सफाई रखें',
     topic2Name:'सम्मान करें',     topic2Sub:'मीठे शब्द बोलें',
@@ -405,7 +406,7 @@ const TRANSLATIONS = {
     storyTitle:'🎬 आसान कहानियां', hearStory:'यह पेज सुनें',
     storyIntro:'एक कहानी चुनें और चित्रों से पढ़ें।',
     scenes:['एक व्यक्ति के हाथ में रैपर है','वह उसे सड़क पर फेंक देता है','बारिश आई — नाला बंद हो गया!','सारा शहर गंदा और दुखी','कूड़ेदान में डालें — खुशहाल शहर!'],
-    quizTitle:'🎯 क्विज़ सेक्शन', hearQuestion:'सवाल सुनें',
+    quizTitle:'🎯  प्रश्नोत्तरी खंड', hearQuestion:'सवाल सुनें',
     quizQuestion:'आपको कचरे के साथ क्या करना चाहिए?',
     ans1:'कूड़ेदान में डालें', ans2:'फेंक दें', ans3:'डिब्बे तक ले जाएं', ans4:'नदी में डालें',
     correct:'🎉 सही! बहुत अच्छे नागरिक हैं आप!', wrong:'❌ फिर कोशिश करें! हमेशा कूड़ेदान का उपयोग करें।',
@@ -413,15 +414,15 @@ const TRANSLATIONS = {
     wrongSpeak:'पूरी तरह सही नहीं। सही जवाब है',
     nextQuestion:'अगला',
     finishQuiz:'पूरा करें',
-    quizComplete:'क्विज़ पूरा हुआ!',
+    quizComplete:'प्रश्नोत्तरी पूर्ण हुई!',
     tryAgain:'फिर कोशिश करें',
-    scoreSaved:'स्कोर सेव हुआ',
+    scoreSaved:'अंक सेव हुआ',
     questionCount:'प्रश्न',
-    scoreLabel:'स्कोर',
-    previousScore:'पिछला स्कोर',
+    scoreLabel:'अंक',
+    previousScore:'पिछला अंक',
     notTried:'अभी कोशिश नहीं की',
-    badgesTitle:'🏅 क्विज स्कोर बैज', badgeEncourage:'स्कोर सेव करने के लिए हर क्विज पूरा करें।',
-    starsEarned:'क्विज अंक',
+    badgesTitle:'🏅 प्रश्नोत्तरी अंक', badgeEncourage:'अंक सेव करने के लिए हर प्रश्नोत्तरी पूर्ण करें।',
+    starsEarned:'अंक',
     badge1Name:'शुरुआत', badge2Name:'सफाई रक्षक', badge3Name:'जल संरक्षक',
     badge4Name:'सम्मान साथी', badge5Name:'अच्छे पड़ोसी', badge6Name:'सड़क नायक',
     earned:'✅ मिला', locked:'🔒 बंद', ttsLang:'hi-IN'
@@ -429,7 +430,7 @@ const TRANSLATIONS = {
   mr: {
     appName:'नागरी जाणीव', appTagline:'एकत्र येऊन समाज सुधारूया',
     changeLang:'🌐 भाषा', offline:'तुम्ही ऑफलाइन आहात — ॲप काम करेल!',
-    navLearn:'शिका', navStory:'कथा', navQuiz:'क्विझ', navBadges:'बॅज',
+    navLearn:'शिका', navStory:'कथा', navQuiz:'प्रश्नमंजुषा', navBadges:'गुण',
     learnTitle:'📖 विषय निवडण्यासाठी टॅप करा',
     topic1Name:'घाण करू नका',     topic1Sub:'स्वच्छता ठेवा',
     topic2Name:'आदर करा',       topic2Sub:'गोड बोला',
@@ -480,7 +481,7 @@ const TRANSLATIONS = {
     storyTitle:'🎬 सोप्या कथा', hearStory:'हे पान ऐका',
     storyIntro:'एक कथा निवडा आणि चित्रांनी वाचा.',
     scenes:['एका माणसाच्या हातात वेष्टन आहे','तो ते रस्त्यावर टाकतो','पाऊस आला — गटार बंद झाले!','संपूर्ण शहर घाण आणि दुःखी','कचराकुंडी वापरा — आनंदी शहर!'],
-    quizTitle:'🎯 क्विझ सेक्शन', hearQuestion:'प्रश्न ऐका',
+    quizTitle:'🎯  प्रश्नमंजुषा विभाग', hearQuestion:'प्रश्न ऐका',
     quizQuestion:'कचऱ्याचे काय करावे?',
     ans1:'कचराकुंडीत टाका', ans2:'टाकून द्या', ans3:'कुंडीपर्यंत न्या', ans4:'नदीत टाका',
     correct:'🎉 बरोबर! तुम्ही उत्तम नागरिक आहात!', wrong:'❌ पुन्हा प्रयत्न करा! नेहमी कचराकुंडी वापरा.',
@@ -488,15 +489,15 @@ const TRANSLATIONS = {
     wrongSpeak:'पूर्ण बरोबर नाही. योग्य उत्तर आहे',
     nextQuestion:'पुढे',
     finishQuiz:'पूर्ण करा',
-    quizComplete:'क्विझ पूर्ण झाली!',
+    quizComplete:'प्रश्नमंजुषा पूर्ण झाली!',
     tryAgain:'पुन्हा प्रयत्न करा',
-    scoreSaved:'स्कोर सेव झाला',
+    scoreSaved:'गुण सेव झाला',
     questionCount:'प्रश्न',
-    scoreLabel:'स्कोर',
-    previousScore:'मागील स्कोर',
+    scoreLabel:'गुण',
+    previousScore:'मागील गुण',
     notTried:'अजून प्रयत्न नाही',
-    badgesTitle:'🏅 क्विझ स्कोर बॅज', badgeEncourage:'स्कोर सेव करण्यासाठी प्रत्येक क्विझ पूर्ण करा.',
-    starsEarned:'क्विझ गुण',
+    badgesTitle:'🏅 प्रश्नमंजुषा गुण', badgeEncourage:'गुण सेव करण्यासाठी प्रत्येक प्रश्नमंजुषा पूर्ण करा.',
+    starsEarned:'गुण',
     badge1Name:'सुरुवात', badge2Name:'स्वच्छता रक्षक', badge3Name:'जल संरक्षक',
     badge4Name:'आदर मित्र', badge5Name:'चांगला शेजारी', badge6Name:'रस्ता नायक',
     earned:'✅ मिळाले', locked:'🔒 बंद', ttsLang:'mr-IN'
@@ -549,7 +550,7 @@ const STORIES = [
     title:{en:'The Tiny Tap', hi:'छोटा नल', mr:'छोटा नळ'},
     tag:{en:'Save water', hi:'पानी बचाएं', mr:'पाणी वाचवा'},
     scenes:[
-      {emoji:'🪥🚰', text:{en:'Riya brushed her teeth in the morning.', hi:'रिया सुबह दांत साफ कर रही थी।', mr:'रिया सकाळी दात घासत होती.'}},
+      {emoji:'👧🦷', text:{en:'Riya brushed her teeth in the morning.', hi:'रिया सुबह दांत साफ कर रही थी।', mr:'रिया सकाळी दात घासत होती.'}},
       {emoji:'💧💧', text:{en:'The tap kept dripping water.', hi:'नल से पानी टपक रहा था।', mr:'नळातून पाणी टपटपत होते.'}},
       {emoji:'✋🚰', text:{en:'Riya closed the tap tightly.', hi:'रिया ने नल अच्छे से बंद किया।', mr:'रियाने नळ नीट बंद केला.'}},
       {emoji:'🧑🔧', text:{en:'She told an adult about the leak.', hi:'उसने लीकेज के बारे में बड़े को बताया।', mr:'तिने गळतीबद्दल मोठ्यांना सांगितले.'}},
@@ -636,20 +637,93 @@ const STORIES = [
   }
 ];
 
+const STORY_DETAILS = {
+  'wrapper-trip': [
+    {en:'A wrapper is small, but many wrappers make the school dirty.', hi:'रैपर छोटा होता है, पर बहुत सारे रैपर स्कूल गंदा करते हैं।', mr:'रॅपर छोटा असतो, पण अनेक रॅपर शाळा घाण करतात.'},
+    {en:'Holding rubbish for a minute is better than dropping it.', hi:'कचरा थोड़ी देर हाथ में रखना, जमीन पर फेंकने से अच्छा है।', mr:'कचरा थोडा वेळ हातात ठेवणे, जमिनीवर टाकण्यापेक्षा चांगले आहे.'},
+    {en:'A bin keeps rubbish away from classrooms, paths and drains.', hi:'कूड़ेदान कचरे को कक्षा, रास्ते और नाली से दूर रखता है।', mr:'कचराकुंडी कचरा वर्ग, रस्ता आणि नालीपासून दूर ठेवते.'},
+    {en:'Clean drains let rain water move away safely.', hi:'साफ नाली में बारिश का पानी सुरक्षित निकल जाता है।', mr:'स्वच्छ नालीत पावसाचे पाणी सुरक्षित जाते.'},
+    {en:'One clean choice helps every child enjoy school.', hi:'एक साफ आदत से हर बच्चा स्कूल का आनंद लेता है।', mr:'एक स्वच्छ सवय प्रत्येक मुलाला शाळा आवडायला मदत करते.'}
+  ],
+  'traffic-light': [
+    {en:'Roads are busy, so children should cross with a trusted adult.', hi:'सड़क व्यस्त होती है, इसलिए बच्चों को भरोसेमंद बड़े के साथ पार करना चाहिए।', mr:'रस्ते व्यस्त असतात, म्हणून मुलांनी विश्वासू मोठ्यांसोबत रस्ता पार करावा.'},
+    {en:'Red means all walkers and vehicles must stop.', hi:'लाल बत्ती का मतलब है कि सबको रुकना चाहिए।', mr:'लाल दिव्याचा अर्थ सगळ्यांनी थांबावे.'},
+    {en:'Yellow means get ready, but do not rush.', hi:'पीली बत्ती का मतलब है तैयार रहो, लेकिन जल्दी मत भागो।', mr:'पिवळ्या दिव्याचा अर्थ तयार राहा, पण घाई करू नका.'},
+    {en:'Green means go only after looking left and right.', hi:'हरी बत्ती पर भी पहले बाएं और दाएं देखकर चलें।', mr:'हिरव्या दिव्यावरही आधी डावे आणि उजवे पाहून जा.'},
+    {en:'Safe crossing needs eyes, ears and patience.', hi:'सुरक्षित पार करने के लिए आंख, कान और धैर्य चाहिए।', mr:'सुरक्षित पार करण्यासाठी डोळे, कान आणि संयम लागतो.'}
+  ],
+  'two-bins': [
+    {en:'Bio waste means food waste that can turn into compost.', hi:'गीला कचरा खाने का कचरा होता है, जो खाद बन सकता है।', mr:'ओला कचरा म्हणजे अन्नाचा कचरा, जो खत होऊ शकतो.'},
+    {en:'Dry waste means clean paper, plastic and metal that can be recycled.', hi:'सूखा कचरा साफ कागज, प्लास्टिक और धातु होता है, जो रीसायकल हो सकता है।', mr:'सुका कचरा म्हणजे स्वच्छ कागद, प्लास्टिक आणि धातू, जे रीसायकल होऊ शकतात.'},
+    {en:'Empty bottles should be clean before they go for recycling.', hi:'रीसायकल से पहले खाली बोतल साफ होनी चाहिए।', mr:'रीसायकलपूर्वी रिकामी बाटली स्वच्छ असावी.'},
+    {en:'Some waste is unsafe, so children should give it to an adult.', hi:'कुछ कचरा खतरनाक होता है, इसलिए बच्चों को उसे बड़े को देना चाहिए।', mr:'काही कचरा धोकादायक असतो, म्हणून मुलांनी तो मोठ्यांना द्यावा.'},
+    {en:'Sorting waste helps cleaners, soil and the whole city.', hi:'कचरा अलग करने से सफाईकर्मी, मिट्टी और शहर की मदद होती है।', mr:'कचरा वेगळा केल्याने सफाई कर्मचारी, माती आणि शहराला मदत होते.'}
+  ],
+  'tiny-tap': [
+    {en:'Clean water is precious because people, plants and animals need it.', hi:'साफ पानी कीमती है क्योंकि लोगों, पौधों और जानवरों को इसकी जरूरत होती है।', mr:'स्वच्छ पाणी मौल्यवान आहे कारण लोक, झाडे आणि प्राणी त्यावर जगतात.'},
+    {en:'A dripping tap can waste many bottles of water in one day.', hi:'टपकता नल एक दिन में बहुत सारा पानी बर्बाद कर सकता है।', mr:'गळणारा नळ एका दिवसात खूप पाणी वाया घालवू शकतो.'},
+    {en:'Closing the tap while brushing saves water every morning.', hi:'ब्रश करते समय नल बंद करने से रोज पानी बचता है।', mr:'ब्रश करताना नळ बंद केल्याने रोज पाणी वाचते.'},
+    {en:'Children can help by telling an adult about leaks.', hi:'बच्चे लीकेज देखकर बड़े को बताकर मदद कर सकते हैं।', mr:'मुले गळती दिसल्यास मोठ्यांना सांगून मदत करू शकतात.'},
+    {en:'Saved water can help gardens, homes and schools.', hi:'बचा हुआ पानी बगीचे, घर और स्कूल के काम आ सकता है।', mr:'वाचलेले पाणी बाग, घर आणि शाळेसाठी उपयोगी पडते.'}
+  ],
+  'lunch-line': [
+    {en:'A line gives every child a fair turn.', hi:'लाइन हर बच्चे को बराबर बारी देती है।', mr:'रांग प्रत्येक मुलाला योग्य वेळ देते.'},
+    {en:'Standing one behind another keeps the place safe.', hi:'एक के पीछे एक खड़े होने से जगह सुरक्षित रहती है।', mr:'एकामागून एक उभे राहिल्याने जागा सुरक्षित राहते.'},
+    {en:'No pushing means food does not spill and no one falls.', hi:'धक्का न देने से खाना नहीं गिरता और कोई नहीं गिरता।', mr:'ढकलले नाही तर अन्न सांडत नाही आणि कोणी पडत नाही.'},
+    {en:'Waiting calmly helps teachers serve everyone faster.', hi:'शांति से इंतजार करने से शिक्षक सबको जल्दी खाना दे पाते हैं।', mr:'शांत थांबल्यास शिक्षक सगळ्यांना लवकर जेवण देऊ शकतात.'},
+    {en:'A fair line makes lunch peaceful and happy.', hi:'अच्छी लाइन से लंच शांत और खुश रहता है।', mr:'चांगली रांग जेवण शांत आणि आनंदी करते.'}
+  ],
+  'kind-words': [
+    {en:'Learning can feel hard, so friends should be gentle.', hi:'सीखना कभी-कभी कठिन लगता है, इसलिए दोस्तों को नरम बोलना चाहिए।', mr:'शिकणे कधी कठीण वाटते, म्हणून मित्रांनी प्रेमाने बोलावे.'},
+    {en:'Listening first shows respect.', hi:'पहले सुनना सम्मान दिखाता है।', mr:'आधी ऐकणे म्हणजे आदर दाखवणे.'},
+    {en:'Helpful words give courage to try again.', hi:'मदद वाले शब्द दोबारा कोशिश करने की हिम्मत देते हैं।', mr:'मदतीचे शब्द पुन्हा प्रयत्न करण्याचे धैर्य देतात.'},
+    {en:'Slow reading is okay because practice makes reading better.', hi:'धीरे पढ़ना ठीक है क्योंकि अभ्यास से पढ़ना अच्छा होता है।', mr:'हळू वाचणे ठीक आहे कारण सरावाने वाचन चांगले होते.'},
+    {en:'Kindness makes the classroom safe for everyone.', hi:'दयालुता कक्षा को सबके लिए सुरक्षित बनाती है।', mr:'दयाळूपणा वर्ग सगळ्यांसाठी सुरक्षित करतो.'}
+  ],
+  'neighbor-bag': [
+    {en:'Helping is good, but children should stay safe first.', hi:'मदद करना अच्छा है, लेकिन बच्चों को पहले सुरक्षित रहना चाहिए।', mr:'मदत करणे चांगले आहे, पण मुलांनी आधी सुरक्षित राहावे.'},
+    {en:'Asking a parent or teacher before helping is a smart habit.', hi:'मदद से पहले माता-पिता या शिक्षक से पूछना अच्छी आदत है।', mr:'मदतीपूर्वी पालक किंवा शिक्षकांना विचारणे चांगली सवय आहे.'},
+    {en:'Small help can make a big task easier for someone.', hi:'छोटी मदद किसी का बड़ा काम आसान कर सकती है।', mr:'छोटी मदत एखाद्याचे मोठे काम सोपे करू शकते.'},
+    {en:'Walking slowly and carefully keeps everyone safe.', hi:'धीरे और सावधानी से चलने से सब सुरक्षित रहते हैं।', mr:'हळू आणि काळजीपूर्वक चालल्याने सगळे सुरक्षित राहतात.'},
+    {en:'Thank you and a smile make helping feel warm.', hi:'धन्यवाद और मुस्कान से मदद प्यारी लगती है।', mr:'धन्यवाद आणि हसू मदत उबदार बनवतात.'}
+  ],
+  'library-voice': [
+    {en:'A library is a quiet place for reading and thinking.', hi:'लाइब्रेरी पढ़ने और सोचने की शांत जगह है।', mr:'वाचनालय वाचण्यासाठी आणि विचार करण्यासाठी शांत जागा आहे.'},
+    {en:'A soft voice helps everyone focus on books.', hi:'धीमी आवाज़ से सब किताबों पर ध्यान दे पाते हैं।', mr:'हळू आवाजाने सगळ्यांना पुस्तकांवर लक्ष देता येते.'},
+    {en:'When we stay quiet, others can learn better.', hi:'हम शांत रहते हैं तो दूसरे बेहतर सीख पाते हैं।', mr:'आपण शांत राहिलो तर इतर चांगले शिकू शकतात.'},
+    {en:'Keeping books neatly helps the next reader find them.', hi:'किताबें ठीक रखने से अगले पाठक को वे मिलती हैं।', mr:'पुस्तके नीट ठेवल्यास पुढच्या वाचकाला ती मिळतात.'},
+    {en:'Quiet places work well when everyone follows the same rule.', hi:'शांत जगह अच्छी रहती है जब सब एक ही नियम मानते हैं।', mr:'सगळे एकच नियम पाळतात तेव्हा शांत जागा चांगली राहते.'}
+  ],
+  'helmet-ride': [
+    {en:'A cycle is fun, but safety must come first.', hi:'साइकिल मजेदार है, लेकिन सुरक्षा पहले आती है।', mr:'सायकल मजेदार आहे, पण सुरक्षितता आधी येते.'},
+    {en:'A helmet protects the head if a rider slips or falls.', hi:'अगर साइकिल फिसले या बच्चा गिरे, तो हेलमेट सिर बचाता है।', mr:'सायकल घसरली किंवा मुल पडले, तर हेलमेट डोके वाचवते.'},
+    {en:'Looking both ways helps a rider notice people and vehicles.', hi:'दोनों तरफ देखने से लोग और गाड़ियां दिखती हैं।', mr:'दोन्ही बाजू पाहिल्याने लोक आणि वाहने दिसतात.'},
+    {en:'Slow riding near people prevents bumps and fear.', hi:'लोगों के पास धीरे चलाने से टक्कर और डर नहीं होता।', mr:'लोकांजवळ हळू चालवल्यास धक्का आणि भीती टळते.'},
+    {en:'Safe riders protect themselves and others.', hi:'सुरक्षित सवार खुद को और दूसरों को बचाते हैं।', mr:'सुरक्षित सायकलस्वार स्वतःला आणि इतरांना जपतात.'}
+  ],
+  'park-plants': [
+    {en:'Plants give shade, fresh air and beauty to a park.', hi:'पौधे पार्क को छाया, साफ हवा और सुंदरता देते हैं।', mr:'झाडे उद्यानाला सावली, स्वच्छ हवा आणि सुंदरता देतात.'},
+    {en:'Moving games away from small plants protects them.', hi:'छोटे पौधों से खेल दूर रखने से वे बचते हैं।', mr:'खेळ छोट्या रोपांपासून दूर ठेवल्यास ती वाचतात.'},
+    {en:'A little water can help a plant grow strong.', hi:'थोड़ा पानी पौधे को मजबूत बढ़ने में मदद करता है।', mr:'थोडे पाणी रोपाला मजबूत वाढायला मदत करते.'},
+    {en:'Wrappers and plastic can hurt soil and plants.', hi:'रैपर और प्लास्टिक मिट्टी और पौधों को नुकसान पहुंचाते हैं।', mr:'रॅपर आणि प्लास्टिक माती व झाडांना नुकसान करतात.'},
+    {en:'When children care for plants, the park becomes better for all.', hi:'बच्चे पौधों की देखभाल करें तो पार्क सबके लिए अच्छा बनता है।', mr:'मुले झाडांची काळजी घेतात तेव्हा उद्यान सगळ्यांसाठी चांगले होते.'}
+  ]
+};
+
 // Add quiz3, quiz4, and more here. Keep 10 questions per quiz and one correct index per question.
 const QUIZZES = [
   {
     id:'quiz1',
-    name:'Quiz 1',
+    name:{en:'Quiz 1', hi:'प्रश्नोत्तरी 1', mr:'प्रश्नमंजुषा 1'},
     badge:'🌟',
     questions:[
-      {category:'Garbage', icon:'🗑️🍌', question:'Which bin is best for a banana peel?', options:['Roadside','Green bin or compost','Water drain','Blue paper bin'], correct:1, explain:'Fruit peels are bio waste and can become compost.'},
-      {category:'Road Safety', icon:'🚦', question:'What should you do when the traffic light is red?', options:['Run quickly','Stop and wait','Cross while waving','Stand in the middle'], correct:1, explain:'Red means stop. Wait until it is safe.'},
-      {category:'Water', icon:'🚰🦷', question:'What should you do while brushing your teeth?', options:['Let water run','Fill many buckets','Keep the tap closed','Play with the tap'], correct:2, explain:'Closing the tap saves clean water.'},
-      {category:'Queue', icon:'🧍🧍', question:'Your class is waiting for lunch. What is fair?', options:['Push to the front','Wait for your turn','Hold two places','Leave the line messy'], correct:1, explain:'Queues help everyone get a fair turn.'},
-      {category:'Respect', icon:'💛', question:'A friend makes a mistake while reading. What should you do?', options:['Laugh loudly','Call names','Help kindly','Hide the book'], correct:2, explain:'Kind words help friends learn.'},
-      {category:'Public Property', icon:'🏫🧱', question:'What should you do with a clean school wall?', options:['Draw on it','Keep it clean','Scratch it','Stick gum on it'], correct:1, explain:'School walls belong to everyone.'},
-      {category:'Health', icon:'🤧', question:'What should you do when you sneeze?', options:['Sneeze on friends','Cover your mouth','Touch everyone','Leave tissues on the floor'], correct:1, explain:'Covering sneezes keeps others healthy.'},
+      {category:{en:'Garbage', hi:'कचरा', mr:'कचरा'}, icon:'🗑️🍌', question:{en:'Which bin is best for a banana peel?', hi:'केले के छिलके के लिए कौन सा डिब्बा सही है?', mr:'केळ्याच्या सालीसाठी कोणती कचराकुंडी योग्य आहे?'}, options:[{en:'Roadside', hi:'सड़क किनारा', mr:'रस्त्याच्या कडेला'},{en:'Green bin or compost', hi:'हरा डिब्बा या खाद', mr:'हिरवी कुंडी किंवा खत'},{en:'Water drain', hi:'नाली', mr:'नाली'},{en:'Blue paper bin', hi:'नीला कागज डिब्बा', mr:'निळी कागद कुंडी'}], correct:1, explain:{en:'Fruit peels are bio waste and can become compost.', hi:'केले के छिलके गीला कचरा हैं और खाद बन सकते हैं।', mr:'केळ्याच्या साली ओला कचरा आहेत आणि खत होऊ शकतात.'}},
+      {category:{en:'Road Safety', hi:'सड़क सुरक्षा', mr:'रस्ता सुरक्षा'}, icon:'🚦', question:{en:'What should you do when the traffic light is red?', hi:'ट्रैफिक लाइट लाल हो तो क्या करना चाहिए?', mr:'ट्रॅफिक लाइट लाल असेल तर काय करावे?'}, options:[{en:'Run quickly', hi:'जल्दी भागें', mr:'लवकर धावा'},{en:'Stop and wait', hi:'रुकें और इंतजार करें', mr:'थांबा आणि वाट पाहा'},{en:'Cross while waving', hi:'हाथ हिलाते हुए पार करें', mr:'हात हलवत पार जा'},{en:'Stand in the middle', hi:'बीच सड़क में खड़े रहें', mr:'मध्ये उभे राहा'}], correct:1, explain:{en:'Red means stop. Wait until it is safe.', hi:'लाल का मतलब रुकना है। सुरक्षित होने तक इंतजार करें।', mr:'लाल म्हणजे थांबा. सुरक्षित होईपर्यंत वाट पाहा.'}},
+      {category:{en:'Water', hi:'पानी', mr:'पाणी'}, icon:'🚰🦷', question:{en:'What should you do while brushing your teeth?', hi:'दांत साफ करते समय आपको क्या करना चाहिए?', mr:'दात घासत असताना काय करावे?'}, options:[{en:'Let water run', hi:'पानी बहने दें', mr:'पाणी वाहू द्या'},{en:'Fill many buckets', hi:'बहुत बाल्टियां भरें', mr:'खूप बादल्या भरा'},{en:'Keep the tap closed', hi:'नल बंद रखें', mr:'नळ बंद ठेवा'},{en:'Play with the tap', hi:'नल से खेलें', mr:'नळाशी खेळा'}], correct:2, explain:{en:'Closing the tap saves clean water.', hi:'नल बंद रखने से साफ पानी बचता है।', mr:'नळ बंद ठेवल्याने स्वच्छ पाणी वाचते.'}},
+      {category:{en:'Queue', hi:'कतार', mr:'रांग'}, icon:'🧍🧍', question:{en:'Your class is waiting for lunch. What is fair?', hi:'आपकी कक्षा लंच के लिए इंतजार कर रही है। सही क्या है?', mr:'तुमचा वर्ग जेवणासाठी थांबला आहे. योग्य काय आहे?'}, options:[{en:'Push to the front', hi:'आगे धक्का दें', mr:'पुढे ढकला'},{en:'Wait for your turn', hi:'अपनी बारी का इंतजार करें', mr:'आपल्या वेळेची वाट पाहा'},{en:'Hold two places', hi:'दो जगह रोकें', mr:'दोन जागा धरून ठेवा'},{en:'Leave the line messy', hi:'लाइन बिगाड़ें', mr:'रांग बिघडवा'}], correct:1, explain:{en:'Queues help everyone get a fair turn.', hi:'कतार से सबको बराबर बारी मिलती है।', mr:'रांगेमुळे सगळ्यांना योग्य वेळ मिळते.'}},
+      {category:{en:'Respect', hi:'सम्मान', mr:'आदर'}, icon:'💛', question:{en:'A friend makes a mistake while reading. What should you do?', hi:'दोस्त पढ़ते समय गलती करे तो क्या करना चाहिए?', mr:'मित्र वाचताना चूक करतो तर काय करावे?'}, options:[{en:'Laugh loudly', hi:'जोर से हंसें', mr:'मोठ्याने हसा'},{en:'Call names', hi:'नाम चिढ़ाएं', mr:'नावे ठेवा'},{en:'Help kindly', hi:'प्यार से मदद करें', mr:'प्रेमाने मदत करा'},{en:'Hide the book', hi:'किताब छिपाएं', mr:'पुस्तक लपवा'}], correct:2, explain:{en:'Kind words help friends learn.', hi:'प्यारे शब्द दोस्तों को सीखने में मदद करते हैं।', mr:'गोड शब्द मित्रांना शिकायला मदत करतात.'}},
+      {category:{en:'Public Property', hi:'सार्वजनिक चीजें', mr:'सार्वजनिक वस्तू'}, icon:'🏫🧱', question:{en:'What should you do with a clean school wall?', hi:'साफ स्कूल की दीवार के साथ क्या करना चाहिए?', mr:'स्वच्छ शाळेच्या भिंतीबाबत काय करावे?'}, options:[{en:'Draw on it', hi:'उस पर लिखें', mr:'त्यावर लिहा'},{en:'Keep it clean', hi:'उसे साफ रखें', mr:'ती स्वच्छ ठेवा'},{en:'Scratch it', hi:'उसे खुरचें', mr:'ती ओरखडा'},{en:'Stick gum on it', hi:'उस पर च्युइंग गम चिपकाएं', mr:'त्यावर च्युइंग गम लावा'}], correct:1, explain:{en:'School walls belong to everyone.', hi:'स्कूल की दीवारें सबकी हैं।', mr:'शाळेच्या भिंती सगळ्यांच्या आहेत.'}},
+      {category:{en:'Health', hi:'स्वास्थ्य', mr:'आरोग्य'}, icon:'🤧', question:{en:'What should you do when you sneeze?', hi:'छींक आने पर क्या करना चाहिए?', mr:'शिंक आली तर काय करावे?'}, options:[{en:'Sneeze on friends', hi:'दोस्तों पर छींकें', mr:'मित्रांवर शिंका'},{en:'Cover your mouth', hi:'मुंह ढकें', mr:'तोंड झाका'},{en:'Touch everyone', hi:'सबको छुएं', mr:'सगळ्यांना स्पर्श करा'},{en:'Leave tissues on the floor', hi:'टिशू जमीन पर छोड़ें', mr:'टिशू जमिनीवर टाका'}], correct:1, explain:{en:'Covering sneezes keeps others healthy.', hi:'छींक ढकने से दूसरे स्वस्थ रहते हैं।', mr:'शिंक झाकल्याने इतर निरोगी राहतात.'}},
       {category:'Cycling', icon:'🚲⛑️', question:'What keeps your head safer on a bicycle?', options:['A school cap','No hands riding','A helmet','A scarf over eyes'], correct:2, explain:'A helmet protects your head.'},
       {category:'Safety', icon:'🧑‍🏫', question:'If you feel lost in a public place, who should you ask for help?', options:['Any child nearby','No one','A busy road driver','A trusted adult or security person'], correct:3, explain:'Trusted adults can help you find your family safely.'},
       {category:'Cleanliness', icon:'🍬🗑️', question:'You have a wrapper but there is no bin nearby. What should you do?', options:['Throw it in a drain','Drop it under a tree','Carry it until you find a bin','Give it to a younger child'], correct:2, explain:'Carry small rubbish until you find the right bin.'}
@@ -657,19 +731,19 @@ const QUIZZES = [
   },
   {
     id:'quiz2',
-    name:'Quiz 2',
+    name:{en:'Quiz 2', hi:'प्रश्नोत्तरी 2', mr:'प्रश्नमंजुषा 2'},
     badge:'🏅',
     questions:[
-      {category:'Road Safety', icon:'🚸', question:'Where should you cross the road when possible?', options:['Between parked cars','At a zebra crossing','On a turn','Anywhere you like'], correct:1, explain:'Zebra crossings are made for safer crossing.'},
-      {category:'Dry Waste', icon:'♻️🥤', question:'Where should an empty plastic bottle go?', options:['Compost box','Road drain','Dry waste or recycling bin','Under a desk'], correct:2, explain:'Clean plastic bottles are dry waste and can be recycled.'},
-      {category:'Bio Waste', icon:'🍂', question:'Where should dry leaves from a garden go?', options:['Water tank','School bag','Compost or green bin','Road corner'], correct:2, explain:'Leaves are bio waste and can become compost.'},
-      {category:'Water', icon:'💧🔧', question:'You see a tap leaking at school. What should you do?', options:['Ignore it','Open it more','Tell a teacher or adult','Splash the water'], correct:2, explain:'An adult can fix the leak and save water.'},
-      {category:'Sharing', icon:'🧒🧒', question:'Two children want the same swing. What is best?', options:['Push harder','Keep it all day','Take turns','Shout at them'], correct:2, explain:'Taking turns makes play fair.'},
-      {category:'Quiet Places', icon:'📚', question:'How should you behave in a library?', options:['Run between shelves','Speak softly','Shout jokes','Tear pages'], correct:1, explain:'Quiet voices help everyone read and study.'},
-      {category:'Bus Manners', icon:'🚌', question:'What is kind on a crowded bus?', options:['Stand on the seat','Block the door','Throw tickets down','Offer a seat to someone who needs it'], correct:3, explain:'Helping someone who needs a seat is caring.'},
-      {category:'Energy', icon:'💡', question:'What should you do before leaving an empty room?', options:['Switch on everything','Switch off lights and fans','Leave the door blocked','Hide the remote'], correct:1, explain:'Saving electricity helps the whole community.'},
-      {category:'Animal Safety', icon:'🐕', question:'What should you do near a street dog?', options:['Pull its tail','Stay calm and do not tease it','Throw stones','Run at it shouting'], correct:1, explain:'Being calm and kind keeps you safer.'},
-      {category:'Emergency', icon:'🔥', question:'If you see smoke or fire, what should you do first?', options:['Hide nearby','Touch it','Move away and tell an adult','Take a selfie'], correct:2, explain:'Move away first, then get adult help quickly.'}
+      {category:{en:'Road Safety', hi:'सड़क सुरक्षा', mr:'रस्ता सुरक्षा'}, icon:'🚸', question:{en:'Where should you cross the road when possible?', hi:'संभव हो तो सड़क कहां पार करनी चाहिए?', mr:'शक्य असेल तर रस्ता कुठे पार करावा?'}, options:[{en:'Between parked cars', hi:'खड़ी गाड़ियों के बीच', mr:'उभ्या गाड्यांच्या मध्ये'},{en:'At a zebra crossing', hi:'ज़ेब्रा क्रॉसिंग पर', mr:'झेब्रा क्रॉसिंगवर'},{en:'On a turn', hi:'मोड़ पर', mr:'वळणावर'},{en:'Anywhere you like', hi:'जहां मन करे', mr:'जिथे आवडेल तिथे'}], correct:1, explain:{en:'Zebra crossings are made for safer crossing.', hi:'ज़ेब्रा क्रॉसिंग सुरक्षित पार करने के लिए होती है।', mr:'झेब्रा क्रॉसिंग सुरक्षित पार करण्यासाठी असते.'}},
+      {category:{en:'Dry Waste', hi:'सूखा कचरा', mr:'सुका कचरा'}, icon:'♻️🥤', question:{en:'Where should an empty plastic bottle go?', hi:'खाली प्लास्टिक बोतल कहां डालनी चाहिए?', mr:'रिकामी प्लास्टिक बाटली कुठे टाकावी?'}, options:[{en:'Compost box', hi:'खाद डिब्बा', mr:'खत पेटी'},{en:'Road drain', hi:'सड़क की नाली', mr:'रस्त्याची नाली'},{en:'Dry waste or recycling bin', hi:'सूखा कचरा या रीसायकल डिब्बा', mr:'सुका कचरा किंवा रीसायकल कुंडी'},{en:'Under a desk', hi:'डेस्क के नीचे', mr:'टेबलखाली'}], correct:2, explain:{en:'Clean plastic bottles are dry waste and can be recycled.', hi:'साफ प्लास्टिक बोतल सूखा कचरा है और रीसायकल हो सकती है।', mr:'स्वच्छ प्लास्टिक बाटली सुका कचरा आहे आणि रीसायकल होऊ शकते.'}},
+      {category:{en:'Bio Waste', hi:'गीला कचरा', mr:'ओला कचरा'}, icon:'🍂', question:{en:'Where should dry leaves from a garden go?', hi:'बगीचे की सूखी पत्तियां कहां डालनी चाहिए?', mr:'बागेतील कोरडी पाने कुठे टाकावी?'}, options:[{en:'Water tank', hi:'पानी की टंकी', mr:'पाण्याची टाकी'},{en:'School bag', hi:'स्कूल बैग', mr:'शाळेची बॅग'},{en:'Compost or green bin', hi:'खाद या हरा डिब्बा', mr:'खत किंवा हिरवी कुंडी'},{en:'Road corner', hi:'सड़क का कोना', mr:'रस्त्याचा कोपरा'}], correct:2, explain:{en:'Leaves are bio waste and can become compost.', hi:'पत्तियां गीला कचरा हैं और खाद बन सकती हैं।', mr:'पाने ओला कचरा आहेत आणि खत होऊ शकतात.'}},
+      {category:{en:'Water', hi:'पानी', mr:'पाणी'}, icon:'💧🔧', question:{en:'You see a tap leaking at school. What should you do?', hi:'स्कूल में नल लीक हो रहा है। आपको क्या करना चाहिए?', mr:'शाळेत नळ गळत आहे. काय करावे?'}, options:[{en:'Ignore it', hi:'अनदेखा करें', mr:'दुर्लक्ष करा'},{en:'Open it more', hi:'और खोल दें', mr:'अजून उघडा'},{en:'Tell a teacher or adult', hi:'शिक्षक या बड़े को बताएं', mr:'शिक्षक किंवा मोठ्यांना सांगा'},{en:'Splash the water', hi:'पानी छिड़कें', mr:'पाणी उडवा'}], correct:2, explain:{en:'An adult can fix the leak and save water.', hi:'बड़े लीकेज ठीक करवाकर पानी बचा सकते हैं।', mr:'मोठे गळती दुरुस्त करून पाणी वाचवू शकतात.'}},
+      {category:{en:'Sharing', hi:'बांटना', mr:'वाटणे'}, icon:'🧒🧒', question:{en:'Two children want the same swing. What is best?', hi:'दो बच्चों को वही झूला चाहिए। सबसे अच्छा क्या है?', mr:'दोन मुलांना तोच झोका हवा आहे. योग्य काय?'}, options:[{en:'Push harder', hi:'जोर से धक्का दें', mr:'जोरात ढकला'},{en:'Keep it all day', hi:'पूरे दिन अपने पास रखें', mr:'दिवसभर स्वतःकडे ठेवा'},{en:'Take turns', hi:'बारी-बारी झूलें', mr:'आळीपाळीने घ्या'},{en:'Shout at them', hi:'उन पर चिल्लाएं', mr:'त्यांच्यावर ओरडा'}], correct:2, explain:{en:'Taking turns makes play fair.', hi:'बारी-बारी खेलने से खेल बराबर होता है।', mr:'आळीपाळीने खेळल्याने खेळ न्याय्य होतो.'}},
+      {category:{en:'Quiet Places', hi:'शांत जगह', mr:'शांत जागा'}, icon:'📚', question:{en:'How should you behave in a library?', hi:'लाइब्रेरी में कैसे रहना चाहिए?', mr:'वाचनालयात कसे वागावे?'}, options:[{en:'Run between shelves', hi:'शेल्फ के बीच दौड़ें', mr:'शेल्फमध्ये धावा'},{en:'Speak softly', hi:'धीरे बोलें', mr:'हळू बोला'},{en:'Shout jokes', hi:'जोर से मजाक करें', mr:'मोठ्याने विनोद करा'},{en:'Tear pages', hi:'पन्ने फाड़ें', mr:'पाने फाडा'}], correct:1, explain:{en:'Quiet voices help everyone read and study.', hi:'धीमी आवाज़ से सब पढ़ और सीख सकते हैं।', mr:'हळू आवाजाने सगळे वाचू आणि शिकू शकतात.'}},
+      {category:{en:'Bus Manners', hi:'बस शिष्टाचार', mr:'बस शिष्टाचार'}, icon:'🚌', question:{en:'What is kind on a crowded bus?', hi:'भीड़ वाली बस में दयालु काम क्या है?', mr:'गर्दीच्या बसमध्ये दयाळू काम काय?'}, options:[{en:'Stand on the seat', hi:'सीट पर खड़े हों', mr:'सीटवर उभे राहा'},{en:'Block the door', hi:'दरवाजा रोकें', mr:'दरवाजा अडवा'},{en:'Throw tickets down', hi:'टिकट नीचे फेंकें', mr:'तिकीट खाली टाका'},{en:'Offer a seat to someone who needs it', hi:'जरूरतमंद को सीट दें', mr:'गरजू व्यक्तीला सीट द्या'}], correct:3, explain:{en:'Helping someone who needs a seat is caring.', hi:'जिसे सीट चाहिए, उसकी मदद करना दयालुता है।', mr:'ज्याला सीट हवी आहे त्याला मदत करणे दयाळूपणा आहे.'}},
+      {category:{en:'Energy', hi:'बिजली', mr:'वीज'}, icon:'💡', question:{en:'What should you do before leaving an empty room?', hi:'खाली कमरे से निकलने से पहले क्या करना चाहिए?', mr:'रिकाम्या खोलीतून बाहेर पडण्यापूर्वी काय करावे?'}, options:[{en:'Switch on everything', hi:'सब चालू करें', mr:'सगळे चालू करा'},{en:'Switch off lights and fans', hi:'लाइट और पंखे बंद करें', mr:'दिवे आणि पंखे बंद करा'},{en:'Leave the door blocked', hi:'दरवाजा रोक दें', mr:'दरवाजा अडवा'},{en:'Hide the remote', hi:'रिमोट छिपाएं', mr:'रिमोट लपवा'}], correct:1, explain:{en:'Saving electricity helps the whole community.', hi:'बिजली बचाने से पूरे समाज की मदद होती है।', mr:'वीज वाचवल्याने संपूर्ण समाजाला मदत होते.'}},
+      {category:{en:'Animal Safety', hi:'जानवर सुरक्षा', mr:'प्राणी सुरक्षा'}, icon:'🐕', question:{en:'What should you do near a street dog?', hi:'सड़क के कुत्ते के पास क्या करना चाहिए?', mr:'रस्त्यावरील कुत्र्याजवळ काय करावे?'}, options:[{en:'Pull its tail', hi:'उसकी पूंछ खींचें', mr:'त्याची शेपटी ओढा'},{en:'Stay calm and do not tease it', hi:'शांत रहें और उसे न चिढ़ाएं', mr:'शांत राहा आणि चिडवू नका'},{en:'Throw stones', hi:'पत्थर फेंकें', mr:'दगड फेका'},{en:'Run at it shouting', hi:'चिल्लाते हुए भागें', mr:'ओरडत धावा'}], correct:1, explain:{en:'Being calm and kind keeps you safer.', hi:'शांत और दयालु रहने से आप ज्यादा सुरक्षित रहते हैं।', mr:'शांत आणि दयाळू राहिल्याने तुम्ही अधिक सुरक्षित राहता.'}},
+      {category:{en:'Emergency', hi:'आपातकाल', mr:'आपत्काल'}, icon:'🔥', question:{en:'If you see smoke or fire, what should you do first?', hi:'धुआं या आग दिखे तो पहले क्या करना चाहिए?', mr:'धूर किंवा आग दिसली तर आधी काय करावे?'}, options:[{en:'Hide nearby', hi:'पास में छिपें', mr:'जवळ लपा'},{en:'Touch it', hi:'उसे छुएं', mr:'त्याला स्पर्श करा'},{en:'Move away and tell an adult', hi:'दूर जाएं और बड़े को बताएं', mr:'दूर जा आणि मोठ्यांना सांगा'},{en:'Take a selfie', hi:'सेल्फी लें', mr:'सेल्फी घ्या'}], correct:2, explain:{en:'Move away first, then get adult help quickly.', hi:'पहले दूर जाएं, फिर तुरंत बड़े की मदद लें।', mr:'आधी दूर जा, मग लगेच मोठ्यांची मदत घ्या.'}}
     ]
   }
 ];
@@ -781,9 +855,13 @@ function selectTopic(el, key) {
 let currentStoryIndex = 0;
 let currentScene = 0;
 
-function storyText(value) {
+function translateValue(value) {
   if (typeof value === 'string') return value;
   return value?.[currentLang] || value?.en || '';
+}
+
+function storyText(value) {
+  return translateValue(value);
 }
 
 function getCurrentStory() {
@@ -916,7 +994,7 @@ function renderQuizTabs() {
     btn.className = 'quiz-tab' + (index === currentQuizIndex ? ' active' : '');
     const name = document.createElement('span');
     name.className = 'quiz-tab-name';
-    name.textContent = quiz.name;
+    name.textContent = translateValue(quiz.name);
     const score = document.createElement('span');
     score.className = 'quiz-tab-score';
     score.textContent = hasScore ? `${T('previousScore')}: ${scores[quiz.id]}/${quiz.questions.length}` : T('notTried');
@@ -945,9 +1023,9 @@ function renderQuiz() {
   const question = getCurrentQuestion();
   if (!quiz || !question) return;
 
-  document.getElementById('quiz-name').textContent = `${quiz.name} · ${question.category}`;
+  document.getElementById('quiz-name').textContent = `${translateValue(quiz.name)} · ${translateValue(question.category)}`;
   document.getElementById('quiz-progress').textContent = `${T('questionCount')} ${currentQuestionIndex + 1}/${quiz.questions.length}`;
-  document.getElementById('quiz-question').textContent = question.question;
+  document.getElementById('quiz-question').textContent = translateValue(question.question);
   document.getElementById('quiz-picture').textContent = question.icon;
 
   const feedback = document.getElementById('feedback');
@@ -965,7 +1043,7 @@ function renderQuiz() {
     marker.textContent = ['A','B','C','D'][index];
     const label = document.createElement('span');
     label.className = 'ans-label';
-    label.textContent = option;
+    label.textContent = translateValue(option);
     btn.append(marker, label);
     answerGrid.appendChild(btn);
   });
@@ -993,14 +1071,14 @@ function answer(btn, selectedIndex) {
   if (isCorrect) {
     currentQuizScore += 1;
     btn.classList.add('chosen-right');
-    fb.textContent = `${T('correct')} ${question.explain}`;
+    fb.textContent = `${T('correct')} ${translateValue(question.explain)}`;
     fb.className   = 'feedback-banner show win';
-    speakText(`${T('correctSpeak')} ${question.explain}`);
+    speakText(`${T('correctSpeak')} ${translateValue(question.explain)}`);
   } else {
     btn.classList.add('chosen-wrong');
-    fb.textContent = `${T('wrong')} ${question.explain}`;
+    fb.textContent = `${T('wrong')} ${translateValue(question.explain)}`;
     fb.className   = 'feedback-banner show lose';
-    speakText(`${T('wrongSpeak')} ${question.options[question.correct]}. ${question.explain}`);
+    speakText(`${T('wrongSpeak')} ${translateValue(question.options[question.correct])}. ${translateValue(question.explain)}`);
   }
 
   document.getElementById('next-question-btn').style.display = 'inline-block';
@@ -1027,7 +1105,7 @@ function nextQuestion() {
   updateBadges();
   updateStarCount();
 
-  document.getElementById('quiz-name').textContent = quiz.name;
+  document.getElementById('quiz-name').textContent = translateValue(quiz.name);
   document.getElementById('quiz-progress').textContent = `${currentQuizScore}/${quiz.questions.length}`;
   document.getElementById('quiz-question').textContent = T('quizComplete');
   document.getElementById('quiz-picture').textContent = quiz.badge;
@@ -1046,7 +1124,7 @@ function nextQuestion() {
 function speakCurrentQuestion() {
   const question = getCurrentQuestion();
   if (!question || quizComplete) return;
-  speakText(`${question.question} ${question.options.join('. ')}`);
+  speakText(`${translateValue(question.question)} ${question.options.map(translateValue).join('. ')}`);
 }
 
 function updateBadges() {
@@ -1065,7 +1143,7 @@ function updateBadges() {
     emoji.textContent = quiz.badge;
     const name = document.createElement('div');
     name.className = 'badge-name';
-    name.textContent = quiz.name;
+    name.textContent = translateValue(quiz.name);
     const status = document.createElement('div');
     status.className = 'badge-status';
     status.textContent = hasScore ? `${T('previousScore')}: ${scores[quiz.id]}/${quiz.questions.length}` : T('notTried');
